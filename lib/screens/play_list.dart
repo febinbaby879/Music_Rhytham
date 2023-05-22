@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:moon_walker/screens/new_playlist.dart';
 import 'package:moon_walker/screens/play_listsongs.dart';
-import 'package:moon_walker/widgets/listView.dart';
+import 'package:moon_walker/widgets/custom_listtile.dart';
 import 'package:moon_walker/widgets/rename_playlist.dart';
 
 class playList extends StatelessWidget {

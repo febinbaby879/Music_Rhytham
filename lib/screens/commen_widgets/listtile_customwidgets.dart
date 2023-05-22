@@ -71,7 +71,7 @@ class ListtileCustomWidget extends StatelessWidget {
                   ? const SizedBox()
                   : SizedBox(
                       child: trailing2,
-                    ))
+                    )),
         ],
       ),
     );

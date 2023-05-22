@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:moon_walker/screens/favouriteScreen.dart';
+import 'package:moon_walker/screens/fetchPermission/fetch_songs.dart';
 import 'package:moon_walker/screens/play_list.dart';
-import 'package:moon_walker/widgets/listView.dart';
+import 'package:moon_walker/widgets/custom_listtile.dart';
 import 'package:shimmer/shimmer.dart';
 
 class MyHomePage extends StatelessWidget {
@@ -27,7 +28,7 @@ class MyHomePage extends StatelessWidget {
                           baseColor: Color.fromARGB(255, 206, 141, 136),
                           highlightColor: Color.fromARGB(255, 99, 93, 38),
                           child: Padding(
-                            padding: const EdgeInsets.only(top:8.0),
+                            padding: const EdgeInsets.only(top: 8.0),
                             child: Text(
                               "Lets' feel it",
                               style: GoogleFonts.aBeeZee(
@@ -38,10 +39,8 @@ class MyHomePage extends StatelessWidget {
                         ),
                       ),
                       Spacer(),
-                      Text('data'),
                       IconButton(
-                        onPressed: () {
-                        },
+                        onPressed: () {},
                         icon: Icon(
                           Icons.grid_view_rounded,
                         ),
@@ -73,17 +72,17 @@ class MyHomePage extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                              builder: (context) => favouriteScreen()),
+                                  builder: (context) => favouriteScreen()),
                             );
                           },
                         ),
-                        height: 60,
+                        height: 150,
                         width: MediaQuery.of(context).size.width * .4,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(15),
                           image: DecorationImage(
                               image: AssetImage(
-                              'assets/images/best websites for free music1640190686306255.jpg'),
+                                  'assets/images/best websites for free music1640190686306255.jpg'),
                               fit: BoxFit.cover),
                         ),
                       ),
@@ -94,11 +93,11 @@ class MyHomePage extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => playList()),
+                              builder: (context) => playList(),),
                             );
                           },
                         ),
-                        height: 60,
+                        height: 150,
                         width: MediaQuery.of(context).size.width * .4,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(15),
@@ -131,7 +130,7 @@ class MyHomePage extends StatelessWidget {
                   ),
                 ),
                 SizedBox(
-                  height: MediaQuery.of(context).size.height*.02,
+                  height: MediaQuery.of(context).size.height * .02,
                 ),
                 Container(
                   alignment: Alignment.bottomLeft,
@@ -140,10 +139,14 @@ class MyHomePage extends StatelessWidget {
                   ),
                 ),
                 SizedBox(
-                  height: MediaQuery.of(context).size.height*.02,
+                  height: MediaQuery.of(context).size.height * .02,
                 ),
                 Expanded(
-                  child: LiistView(),
+                  child: ListView.separated(itemBuilder: ((context, index) {
+                    return CustomListTile(songIndex: index);
+                  }), separatorBuilder: (context,index){
+                    return SizedBox(height: 10,);
+                  }, itemCount: FetchSongss.allSongs.length),
                 ),
               ],
             ),

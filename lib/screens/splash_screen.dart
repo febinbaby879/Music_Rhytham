@@ -1,6 +1,6 @@
 
 import 'package:flutter/material.dart';
-import 'package:moon_walker/screens/fetchPermission/fetch.dart';
+import 'package:moon_walker/screens/fetchPermission/fetch_songs.dart';
 import 'package:moon_walker/widgets/bottomNavigationBar.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -11,12 +11,11 @@ class SplashScreen extends StatefulWidget {
 }
 
 
-
 class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    goToHome();
+    initializeApp();
   }
 
   @override
@@ -26,7 +25,7 @@ class _SplashScreenState extends State<SplashScreen> {
           fit: StackFit.expand,
           children: [
             Image.asset(
-              'assets/images/7053026-silhouette-music-men-play-a-guitar-with-color-ink-splat-background-illustration-more-background.jpg',
+              'assets/images/cover.jpeg',
               fit: BoxFit.cover,
             ),
             Positioned(
@@ -39,7 +38,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   children: [
                     Text('Feel the power of\nRytham',
                       style: TextStyle(
-                        color: Color.fromARGB(255, 204, 231, 47),
+                        color: Color.fromARGB(255, 159, 24, 174),
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
                       ),
@@ -53,14 +52,14 @@ class _SplashScreenState extends State<SplashScreen> {
     );
   }
 
-  goToHome() async {
-    FetchSongs fetchsong = FetchSongs();
-    await fetchsong.songfetch();
-    await Future.delayed(const Duration(seconds: 5),);
-    Navigator.of(context).pushReplacement(
-      MaterialPageRoute(
-        builder: ((context) => musicAppBottomNav()),
-      ),
-    );
+  
+  Future<void> initializeApp() async {
+    bool hasStoragePermission = false;
+    await Future.delayed(Duration(seconds: 2));
+    hasStoragePermission = await CheckPermission.checkAndRequestPermissions();
+    if (hasStoragePermission) {
+      await FetchSongss.fetchSongs();
+      Navigator.of(context).push(MaterialPageRoute(builder: (context)=>musicAppBottomNav()));
+    }
   }
 }

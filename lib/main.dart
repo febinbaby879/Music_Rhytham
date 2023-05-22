@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:moon_walker/screens/fetchPermission/splash_screen.dart';
+import 'package:moon_walker/screens/splash_screen.dart';
 import 'package:moon_walker/screens/theme.dart';
 import 'package:provider/provider.dart';
-
 Future<void> main(List<String> args) async {
   runApp(
     ChangeNotifierProvider(

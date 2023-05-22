@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:moon_walker/widgets/listView.dart';
+import 'package:moon_walker/widgets/custom_listtile.dart';
 
 class playListSongs extends StatelessWidget {
   const playListSongs({super.key});
@@ -32,9 +32,9 @@ class playListSongs extends StatelessWidget {
                 ),
                 SizedBox(height: MediaQuery.of(context).size.height*.02,
                 ),
-                Expanded(
-                  child: LiistView(),
-                ),
+                // Expanded(
+                //   child: LiistView(),
+                // ),
               ],
             ),
           ),

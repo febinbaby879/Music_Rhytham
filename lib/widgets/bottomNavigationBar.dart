@@ -16,7 +16,7 @@ class _musicAppBottomNavState extends State<musicAppBottomNav> {
     MyHomePage(), 
     RecentList(), 
     MostPlayed(), 
-    SettingsScreen()
+    SettingsScreen(),
     ];
   int _selectedIndex = 0;
   @override
