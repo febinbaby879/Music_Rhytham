@@ -2,15 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class bigMusic extends StatelessWidget {
-  const bigMusic({super.key});
-
+class nowPlaying extends StatelessWidget {
+  const nowPlaying({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(20.0),
+          padding: const EdgeInsets.all(10.0),
           child: SingleChildScrollView(
             child: Container(
               width: MediaQuery.of(context).size.width,
@@ -22,7 +21,7 @@ class bigMusic extends StatelessWidget {
                       children: [
                         IconButton(
                           onPressed: () {
-                             Navigator.of(context).pop();
+                            Navigator.of(context).pop();
                           },
                           icon: Icon(Icons.arrow_back),
                         ),
@@ -38,7 +37,7 @@ class bigMusic extends StatelessWidget {
                     padding: const EdgeInsets.only(top: 20.0),
                     child: Container(
                       width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.height*.456,
+                      height: MediaQuery.of(context).size.height*.45,
                       child: ClipOval(
                         child: Image.asset(
                           'assets/images/clown-listening-to-music-relaxing-35822021.jpg',

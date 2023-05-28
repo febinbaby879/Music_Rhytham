@@ -72,7 +72,7 @@ class MyHomePage extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => favouriteScreen()),
+                              builder: (context) => favouriteScreen()),
                             );
                           },
                         ),
@@ -142,11 +142,14 @@ class MyHomePage extends StatelessWidget {
                   height: MediaQuery.of(context).size.height * .02,
                 ),
                 Expanded(
-                  child: ListView.separated(itemBuilder: ((context, index) {
+                  child: ListView.separated(
+                    itemBuilder: ((context, index) {
                     return CustomListTile(songIndex: index);
-                  }), separatorBuilder: (context,index){
+                  }),
+                   separatorBuilder: (context,index){
                     return SizedBox(height: 10,);
-                  }, itemCount: FetchSongss.allSongs.length),
+                  }, 
+                  itemCount: FetchSongss.allSongs.length),
                 ),
               ],
             ),
