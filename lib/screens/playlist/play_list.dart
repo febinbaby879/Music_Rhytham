@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:moon_walker/screens/new_playlist.dart';
 import 'package:moon_walker/screens/play_listsongs.dart';
-import 'package:moon_walker/widgets/custom_listtile.dart';
 import 'package:moon_walker/widgets/rename_playlist.dart';
 
 class playList extends StatelessWidget {
@@ -10,29 +10,14 @@ class playList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Scaffold(appBar: appBar(context),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(20.0),
           child: Container(
             child: Column(
               children: [
-                Container(
-                  child: Row(
-                    children: [
-                      IconButton(
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                        icon: Icon(Icons.arrow_back),
-                      ),
-                      Text(
-                        "Play lists",
-                        style: GoogleFonts.kavoon(fontSize: 18),
-                      ),
-                    ],
-                  ),
-                ),
+                //appBar(context),
                 Card(
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
@@ -98,6 +83,26 @@ class playList extends StatelessWidget {
                 ),
               ],
             ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  AppBar appBar(BuildContext context) {
+    return AppBar(
+      title: const Text(
+        'PLAY LISTS',
+        style: TextStyle(
+        fontFamily: 'Peddana', fontWeight: FontWeight.w600, fontSize: 16),
+      ),
+      centerTitle: true,
+      automaticallyImplyLeading: false,
+      leading: InkWell(
+        onTap: () => Navigator.of(context).pop(),
+        child: const Center(
+          child: FaIcon(
+            FontAwesomeIcons.angleLeft,
           ),
         ),
       ),

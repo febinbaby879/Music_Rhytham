@@ -16,8 +16,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
     final themeModel = Provider.of<ThemeModel>(context);
     return Scaffold(
       body: SingleChildScrollView(
-        child: SafeArea(
-          child: Padding(
+        child: Padding(
             padding: const EdgeInsets.all(20.0),
             child: Container(
               child: Column(
@@ -115,7 +114,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ),
           ),
         ),
-      ),
     );
   }
 }

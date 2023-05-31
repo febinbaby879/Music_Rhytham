@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+
 class popupAllSongs extends StatelessWidget {
   const popupAllSongs({
     super.key,
@@ -10,13 +11,14 @@ class popupAllSongs extends StatelessWidget {
     return PopupMenuButton(
       itemBuilder: (context) => [
         PopupMenuItem(
-          // onTap: () {
+          onTap: () {
+          //addFavourat();
           //   Navigator.of(context).push(
           //     MaterialPageRoute(
           //       builder: (Context) => favouriteScreen(),
           //     ),
           //   );
-          // },
+           },
           child: Row(
             children: [
               Icon(Icons.favorite_outline),

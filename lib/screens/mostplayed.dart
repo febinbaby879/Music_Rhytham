@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:moon_walker/widgets/custom_listtile.dart';
-import 'package:shimmer/shimmer.dart';
-
 
 class MostPlayed extends StatelessWidget {
   const MostPlayed({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
+    return SafeArea(
           child: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Container(
@@ -33,7 +29,7 @@ class MostPlayed extends StatelessWidget {
             ],
           ),
         ),
-      )),
+      ),
     );
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:moon_walker/screens/homeList.dart';
+import 'package:moon_walker/screens/miniplayer/mini_laast.dart';
 import 'package:moon_walker/screens/mostplayed.dart';
 import 'package:moon_walker/screens/recent_page.dart';
 import 'package:moon_walker/screens/setting.dart';
@@ -22,6 +23,7 @@ class _musicAppBottomNavState extends State<musicAppBottomNav> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      //bottomSheet: miniLast(),
       body: Stack(
         children: [
           pages[_selectedIndex],

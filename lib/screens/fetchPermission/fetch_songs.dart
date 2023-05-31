@@ -1,4 +1,3 @@
-
 import 'package:moon_walker/database/Allsongs/model/allSongModel.dart';
 import 'package:moon_walker/screens/const.dart';
 import 'package:on_audio_query/on_audio_query.dart';
@@ -17,31 +16,39 @@ class CheckPermission {
   }
 }
 
-// there is no relation to both function becouse one function return
-// permission esult and this function add Songs to embty list.
-class FetchSongss {
-  static List<SongModel> allSongs = [];
-  static Future<void> fetchSongs() async {
-    //OnAudioQuery audioQuery = OnAudioQuery();
-    allSongs.addAll(
-      await audioQuery.querySongs(),
-    );
-    allSongs.forEach(
-      (element) {
-        if(element.fileExtension=='mp3'){
-        box.add(SongsAll(
-          songname: element.title,
-          artist: element.artist,
-          duration: element.duration,
-          id: element.id,
-          songurl: element.uri),
-          );
-        }
-        //print(element.size);
-      },
-    );
-    //print('${box.values.length}');
+List<SongsAll> allSongs = [];
+
+Future<void> fetchSongs() async {
+  List<SongModel> fetchSongs = await audioQuery.querySongs(
+    ignoreCase: true,
+    orderType: OrderType.ASC_OR_SMALLER,
+    sortType: null,
+    uriType: UriType.EXTERNAL,
+  );
+
+  List<SongModel> filteredSongs = [];
+
+  for (var element in fetchSongs) {
+    //if (element.fileExtension == 'mp3') {
+      filteredSongs.add(element);
+    //}
   }
+
+  allSongs = filteredSongs.map((element) => SongsAll(
+    songname: element.displayName,
+    artist: element.artist,
+    duration: element.duration,
+    id: element.id,
+    songurl: element.uri,
+  )).toList();
+
+  allSongs.forEach((element) {
+    box.add(
+      element,
+    );
+  });
+
+  print('${box.values.length}');
 }
 
 final box = SongBox.getInstance();
