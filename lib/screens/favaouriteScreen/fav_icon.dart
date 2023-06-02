@@ -21,12 +21,9 @@ class _favIconState extends State<favIcon> {
           () {
             if (widget.isfav) {
               widget.isfav = false;
-              print('isfav');
-              addFavourat(widget.currentSong);
+             removeFavourite(widget.currentSong);
             } else {
-              
-              print('remove');
-              removeFavourite(widget.currentSong);
+              addFavourat(widget.currentSong);
               widget.isfav=true;
             }
           },

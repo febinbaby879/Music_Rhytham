@@ -3,11 +3,13 @@ import 'package:flutter/services.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:moon_walker/database/Allsongs/model/allSongModel.dart';
 import 'package:moon_walker/database/Favourite/model/model.dart';
+import 'package:moon_walker/database/play_lists/model/play_list_model.dart';
 import 'package:moon_walker/screens/splash_screen.dart';
-import 'package:moon_walker/screens/theme.dart';
+import 'package:moon_walker/screens/dark_mode/theme.dart';
 import 'package:provider/provider.dart';
 
 Future<void> main(List<String> args) async {
+  WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
   if(!Hive.isAdapterRegistered(SongsAllAdapter().typeId)){
     Hive.registerAdapter(SongsAllAdapter());
@@ -15,6 +17,9 @@ Future<void> main(List<String> args) async {
   await Hive.openBox<SongsAll>(boxname);
   if(!Hive.isAdapterRegistered(FavmodelAdapter().typeId)){
     Hive.registerAdapter(FavmodelAdapter(),);
+  }
+  if(!Hive.isAdapterRegistered(playListClassAdapter().typeId)){
+    Hive.registerAdapter(playListClassAdapter());
   }
   runApp(
     ChangeNotifierProvider(

@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:moon_walker/screens/homeList.dart';
-import 'package:moon_walker/screens/miniplayer/mini_laast.dart';
+import 'package:moon_walker/screens/home_screens/homeList.dart';
 import 'package:moon_walker/screens/mostplayed.dart';
 import 'package:moon_walker/screens/recent_page.dart';
-import 'package:moon_walker/screens/setting.dart';
+import 'package:moon_walker/screens/settings/setting.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
 class musicAppBottomNav extends StatefulWidget {

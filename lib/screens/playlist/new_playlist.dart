@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class newPlaylist extends StatelessWidget {
+class newPlaylist extends StatefulWidget {
   const newPlaylist({super.key});
 
+  @override
+  State<newPlaylist> createState() => _newPlaylistState();
+}
+
+
+class _newPlaylistState extends State<newPlaylist> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

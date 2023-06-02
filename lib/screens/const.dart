@@ -8,5 +8,5 @@ final OnAudioQuery audioQuery = OnAudioQuery();
 const List<Color> miniplayerColor=[
   Colors.blue,
   Colors.white12,
-  Colors.pink,
+  Colors.blue,
 ];

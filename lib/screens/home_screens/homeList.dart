@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:moon_walker/database/Allsongs/model/allSongModel.dart';
 import 'package:moon_walker/screens/commen_widgets/listtile_customwidgets.dart';
-import 'package:moon_walker/screens/const.dart';
 import 'package:moon_walker/screens/favaouriteScreen/fav_icon.dart';
 import 'package:moon_walker/screens/favaouriteScreen/favouriteScreen.dart';
 import 'package:moon_walker/screens/fetchPermission/convert_audio.dart';
 import 'package:moon_walker/screens/fetchPermission/fetch_songs.dart';
-import 'package:moon_walker/screens/miniplayer/mini_laast.dart';
-import 'package:moon_walker/screens/play_list.dart';
+import 'package:moon_walker/screens/now_mini/mini_laast.dart';
+import 'package:moon_walker/screens/playlist/add_toplaList.dart';
+import 'package:moon_walker/screens/playlist/play_list.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -25,7 +25,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    List<Audio> songAudioList = convertToAudioList(allSongs);
+    List<Audio> songAudioList = allSongsAudioList;
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.only(right: 9, top: 12, left: 9),
@@ -86,7 +86,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => favouriteScreen()),
+                            builder: (context) => favouriteScreen()),
                           );
                         },
                       ),
@@ -118,7 +118,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         borderRadius: BorderRadius.circular(15),
                         image: DecorationImage(
                             image: AssetImage(
-                              'assets/images/166142112-mans-hands-playing-acoustic-guitar-close-up-acoustic-guitars-playing-music-concept-guitars.jpg'),
+                                'assets/images/166142112-mans-hands-playing-acoustic-guitar-close-up-acoustic-guitars-playing-music-concept-guitars.jpg'),
                             fit: BoxFit.cover),
                       ),
                     ),
@@ -159,8 +159,12 @@ class _MyHomePageState extends State<MyHomePage> {
               Expanded(
                 child: ValueListenableBuilder(
                   valueListenable: allsongBodyNotifier,
-                  builder: ((context, value, child) =>
-                  allSongs.isEmpty ? songNotFound() : allSongsListview(songAudioList,allSongs.cast<SongsAll>(),)),
+                  builder: ((context, value, child) => allSongs.isEmpty
+                      ? songNotFound()
+                      : allSongsListview(
+                          songAudioList,
+                          allSongs.cast<SongsAll>(),
+                        )),
                 ),
               ),
             ],
@@ -170,22 +174,13 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  ListView allSongsListview(List<Audio> songAudio,List<SongsAll> song) {
+  ListView allSongsListview(List<Audio> songAudio, List<SongsAll> song) {
     return ListView.separated(
-      physics: BouncingScrollPhysics(),
+        physics: BouncingScrollPhysics(),
         itemBuilder: ((context, index) {
           return InkWell(
-            onTap: () async{
-            await assetsAudioPlayer.stop();
-            await assetsAudioPlayer.open(
-            showNotification: true,
-            Playlist(
-              audios: songAudio,
-            ),
-            loopMode: LoopMode.playlist
-            // loop the full playlist
-        );
-        await assetsAudioPlayer.playlistPlayAtIndex(index);
+            onTap: ()async{
+              playingAudio(allSongs,index);
               showBottomSheet(
                 context: context,
                 builder: ((context) => miniLast()),
@@ -211,7 +206,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 allSongs[index].songname!,
                 overflow: TextOverflow.ellipsis,
               ),
-              subtitle: Text(allSongs[index].artist??'No artist'),
+              subtitle: Text(allSongs[index].artist ?? 'No artist'),
               trailing1: favIcon(
                 currentSong: allSongs[index],
                 isfav: favarotList.value.contains(
@@ -219,14 +214,24 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ),
               trailing2: PopupMenuButton(
+                onSelected: (value) {
+                  //if (value == 0) {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => playList(),
+                      ),
+                    );
+                  },
+                //},
                 shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12)),
+                  borderRadius: BorderRadius.circular(12),
+                ),
                 shadowColor: Colors.brown,
                 itemBuilder: (context) => [
                   PopupMenuItem(
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [ 
+                      children: [
                         Icon(Icons.playlist_add),
                         Text('Add to Playlist'),
                       ],

@@ -7,7 +7,7 @@ class MostPlayed extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-          child: Padding(
+      child: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Container(
           child: Column(

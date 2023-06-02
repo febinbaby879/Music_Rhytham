@@ -1,4 +1,5 @@
 import 'package:assets_audio_player/assets_audio_player.dart';
+import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:moon_walker/screens/const.dart';
@@ -74,29 +75,25 @@ class _nowPlayingState extends State<nowPlaying> {
                     SizedBox(
                       height: MediaQuery.of(context).size.height * .02,
                     ),
-                    Slider(
-                      value: assetsAudioPlayer.currentPosition.value.inSeconds
-                          .toDouble(),
-                      min: 0.0,
-                      max: assetsAudioPlayer
-                          .current.value!.audio.duration.inSeconds
-                          .toDouble(),
-                      onChanged: (double value) {
-                        assetsAudioPlayer
-                            .seek(Duration(seconds: value.toInt()));
-                      },
-                    ),
-                    Container(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                              '${assetsAudioPlayer.currentPosition.value.toString().split('.').first}'),
-                          Text(
-                              '${assetsAudioPlayer.current.value!.audio.duration.toString().split('.').first}'),
-                        ],
-                      ),
-                    ),
+                    PlayerBuilder.currentPosition(
+                        player: assetsAudioPlayer,
+                        builder: (context, duration) {
+                          final totalDuration =
+                          assetsAudioPlayer.current.value?.audio.duration;
+                          return ProgressBar(
+                            progress: duration,
+                            total: totalDuration!,
+                            progressBarColor: Colors.blue,
+                            baseBarColor: Colors.blue.withOpacity(0.24),
+                            bufferedBarColor: Colors.blue.withOpacity(0.24),
+                            thumbColor: Colors.blue,
+                            barHeight: 4.0,
+                            thumbRadius: 7.0,
+                            onSeek: (duration) {
+                              assetsAudioPlayer.seek(duration);
+                            },
+                          );
+                        }),
                     SizedBox(
                       height: MediaQuery.of(context).size.height * .04,
                     ),

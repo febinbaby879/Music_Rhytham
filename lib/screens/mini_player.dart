@@ -4,7 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:moon_walker/screens/const.dart';
 import 'package:moon_walker/screens/fetchPermission/fetch_songs.dart';
-import 'package:moon_walker/screens/now_playing.dart';
+import 'package:moon_walker/screens/now_mini/now_playing.dart';
 
 // class MiniPlayerWidget extends StatefulWidget {
 //   final List<Audio> allSongsAudioList;

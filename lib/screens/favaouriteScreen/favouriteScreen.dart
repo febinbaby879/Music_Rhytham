@@ -4,6 +4,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:moon_walker/database/Allsongs/model/allSongModel.dart';
 import 'package:moon_walker/screens/commen_widgets/listtile_customwidgets.dart';
 import 'package:moon_walker/screens/favaouriteScreen/fav_icon.dart';
+import 'package:moon_walker/screens/fetchPermission/convert_audio.dart';
+import 'package:moon_walker/screens/now_mini/mini_laast.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
 ValueNotifier<List<SongsAll>> favarotList = ValueNotifier([]);
@@ -18,6 +20,7 @@ class favouriteScreen extends StatefulWidget {
 class _favouriteScreenState extends State<favouriteScreen> {
   @override
   Widget build(BuildContext context) {
+    //favFetch();
     return Scaffold(
       appBar: appBarfav(context),
       body: ValueListenableBuilder(
@@ -58,8 +61,6 @@ class _favouriteScreenState extends State<favouriteScreen> {
     );
   }
 
-
-
   favouritebuilderfunction() {
     return ListView.separated(
       physics: const BouncingScrollPhysics(),
@@ -67,7 +68,13 @@ class _favouriteScreenState extends State<favouriteScreen> {
         return Padding(
           padding: const EdgeInsets.only(top: 20),
           child: InkWell(
-            onTap: () {
+            onTap: () async{
+              playingAudio(favarotList.value,index);
+              //convertToAudioList(favarotList.value);
+              showBottomSheet(
+                context: context,
+                builder: ((context) => miniLast()),
+              );
               //playingAudio(favarotList.value, index);
             },
             child: ListtileCustomWidget(
@@ -85,7 +92,7 @@ class _favouriteScreenState extends State<favouriteScreen> {
                 id: favarotList.value[index].id!,
                 type: ArtworkType.AUDIO,
                 nullArtworkWidget: ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(27),
                   child: Image.asset(
                     'assets/images/musizz.jpg',
                     fit: BoxFit.cover,
@@ -97,7 +104,7 @@ class _favouriteScreenState extends State<favouriteScreen> {
                 isfav: true,
               ),
               trailing2: PopupMenuButton(shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12)
+                borderRadius: BorderRadius.circular(12),
               ),
                 //     onSelected: (value) {
                 //       if (value == 0) {
@@ -129,7 +136,7 @@ class _favouriteScreenState extends State<favouriteScreen> {
                         ),
                       ],
                     ),
-                  )
+                  ),
                 ],
               ),
             ),

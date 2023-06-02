@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:moon_walker/screens/theme.dart';
+import 'package:moon_walker/screens/dark_mode/theme.dart';
 import 'package:provider/provider.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -66,9 +66,18 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
-                    child: ListTile(
-                      leading: Icon(Icons.zoom_in),
-                      title: Text('About Us'),
+                    child: AboutListTile(
+                      // leading: Icon(Icons.zoom_in),
+                      // title: Text('About Us'),
+                      icon: Icon(Icons.info),
+                      applicationIcon: FlutterLogo(),
+                      applicationLegalese: 'Legalese',
+                      applicationName: 'RHYTHAM',
+                      applicationVersion: '1.2.0',
+                      aboutBoxChildren: [
+                        Text('febib'),
+                        Text('baby'),
+                      ],
                     ),
                   ),
                   SizedBox(

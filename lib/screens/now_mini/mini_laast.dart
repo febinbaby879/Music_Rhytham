@@ -2,7 +2,7 @@ import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:moon_walker/screens/const.dart';
-import 'package:moon_walker/screens/now_playing.dart';
+import 'package:moon_walker/screens/now_mini/now_playing.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
 class miniLast extends StatefulWidget {
@@ -34,9 +34,9 @@ class _miniLastState extends State<miniLast> {
           child: Container(
             decoration: BoxDecoration(
               gradient: LinearGradient(
-                  colors: miniplayerColor,
-                  begin: Alignment.centerLeft,
-                  end: Alignment.topCenter),
+                colors: miniplayerColor,
+                begin: Alignment.bottomLeft,
+                end: Alignment.bottomRight),
             ),
             child: assetsAudioPlayer.builderCurrent(
               builder: (context, playing) {
@@ -45,7 +45,7 @@ class _miniLastState extends State<miniLast> {
                     Padding(
                       padding: const EdgeInsets.only(left: 8.0),
                       child: Container(
-                        height: MediaQuery.of(context).size.width * .18,
+                        height: MediaQuery.of(context).size.width * .15,
                         width: MediaQuery.of(context).size.width * .15,
                         child: ClipOval(
                           child: QueryArtworkWidget(
