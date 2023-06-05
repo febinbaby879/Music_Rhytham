@@ -55,12 +55,12 @@ class _SplashScreenState extends State<SplashScreen> {
   
   Future<void> initializeApp() async {
     bool hasStoragePermission = false;
-    await Future.delayed(Duration(seconds: 2),);
+    await Future.delayed(Duration(seconds: 2));
     hasStoragePermission = await CheckPermission.checkAndRequestPermissions();
     if (hasStoragePermission) {
-     //await FetchSongs();
-     await fetchSongs();
-    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>musicAppBottomNav()));
+     // await FetchSongs();
+      await songfetch();
+      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>musicAppBottomNav()));
     }
   }
 }

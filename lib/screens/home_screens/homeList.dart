@@ -8,7 +8,7 @@ import 'package:moon_walker/screens/favaouriteScreen/favouriteScreen.dart';
 import 'package:moon_walker/screens/fetchPermission/convert_audio.dart';
 import 'package:moon_walker/screens/fetchPermission/fetch_songs.dart';
 import 'package:moon_walker/screens/now_mini/mini_laast.dart';
-import 'package:moon_walker/screens/playlist/add_toplaList.dart';
+import 'package:moon_walker/screens/playlist/add.dart';
 import 'package:moon_walker/screens/playlist/play_list.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 import 'package:shimmer/shimmer.dart';
@@ -86,7 +86,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                            builder: (context) => favouriteScreen()),
+                                builder: (context) => favouriteScreen()),
                           );
                         },
                       ),
@@ -95,8 +95,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15),
                         image: DecorationImage(
-                            image: AssetImage(
-                                'assets/images/best websites for free music1640190686306255.jpg'),
+                            image: AssetImage('assets/images/img4.jpg'),
                             fit: BoxFit.cover),
                       ),
                     ),
@@ -117,8 +116,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15),
                         image: DecorationImage(
-                            image: AssetImage(
-                                'assets/images/166142112-mans-hands-playing-acoustic-guitar-close-up-acoustic-guitars-playing-music-concept-guitars.jpg'),
+                            image: AssetImage('assets/images/img4.jpg'),
                             fit: BoxFit.cover),
                       ),
                     ),
@@ -163,7 +161,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       ? songNotFound()
                       : allSongsListview(
                           songAudioList,
-                          allSongs.cast<SongsAll>(),
+                          allSongs.cast<Songs>(),
                         )),
                 ),
               ),
@@ -174,13 +172,13 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  ListView allSongsListview(List<Audio> songAudio, List<SongsAll> song) {
+  ListView allSongsListview(List<Audio> songAudio, List<Songs> song) {
     return ListView.separated(
         physics: BouncingScrollPhysics(),
         itemBuilder: ((context, index) {
           return InkWell(
-            onTap: ()async{
-              playingAudio(allSongs,index);
+            onTap: () async {
+              playingAudio(allSongs, index);
               showBottomSheet(
                 context: context,
                 builder: ((context) => miniLast()),
@@ -215,20 +213,23 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
               trailing2: PopupMenuButton(
                 onSelected: (value) {
-                  //if (value == 0) {
+                  if (value == 0) {
                     Navigator.of(context).push(
                       MaterialPageRoute(
-                        builder: (context) => playList(),
+                        builder: (context) => AddToPlaylist(
+                          addToPlaylistSong: allSongs[index],
+                        ),
                       ),
                     );
-                  },
-                //},
+                  }
+                },
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
                 shadowColor: Colors.brown,
                 itemBuilder: (context) => [
                   PopupMenuItem(
+                    value: 0,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [

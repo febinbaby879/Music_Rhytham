@@ -5,19 +5,21 @@ import 'package:moon_walker/screens/favaouriteScreen/favouriteScreen.dart';
 import 'package:moon_walker/screens/fetchPermission/fetch_songs.dart';
 
 
-Future<void> addFavourat(SongsAll songs)async{
+Future<void> addFavourat(Songs songs)async{
 favarotList.value.insert(0, songs);
  Box <Favmodel>favDB=await Hive.openBox<Favmodel>('Favarout');
  Favmodel temp=Favmodel(id: songs.id);
- favDB.add(temp);
- 
- print(favDB.length);
+ await favDB.put(songs.id,temp);
+ favFetch();
+ //print(favDB.length);
+ favarotList.notifyListeners();
 }
 
-  favFetch() async {
+
+favFetch() async {
   favarotList.value.clear();
   List<Favmodel> favSongCheck = [];
-  final favDb = await Hive.openBox<Favmodel>('favouriteDB');
+  final favDb = await Hive.openBox<Favmodel>('Favarout');
   favSongCheck.addAll(favDb.values);
   for (var favs in favSongCheck) {
     int count = 0;
@@ -37,12 +39,10 @@ favarotList.value.insert(0, songs);
   favarotList.notifyListeners();
 }
   
-
-
-removeFavourite(SongsAll song) async {
+removeFavourite(Songs song) async {
   favarotList.value.remove(song);
   List<Favmodel> templist = [];
-  Box<Favmodel> favdb = await Hive.openBox('favorite');
+  Box<Favmodel> favdb = await Hive.openBox('Favarout');
   templist.addAll(favdb.values);
   for (var element in templist) {
     if (element.id == song.id) {
@@ -51,4 +51,5 @@ removeFavourite(SongsAll song) async {
       break;
     }
   }
+  favFetch();
 }

@@ -6,9 +6,10 @@ import 'package:moon_walker/screens/commen_widgets/listtile_customwidgets.dart';
 import 'package:moon_walker/screens/favaouriteScreen/fav_icon.dart';
 import 'package:moon_walker/screens/fetchPermission/convert_audio.dart';
 import 'package:moon_walker/screens/now_mini/mini_laast.dart';
+import 'package:moon_walker/screens/playlist/add.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
-ValueNotifier<List<SongsAll>> favarotList = ValueNotifier([]);
+ValueNotifier<List<Songs>> favarotList = ValueNotifier([]);
 
 class favouriteScreen extends StatefulWidget {
   favouriteScreen({super.key});
@@ -25,9 +26,8 @@ class _favouriteScreenState extends State<favouriteScreen> {
       appBar: appBarfav(context),
       body: ValueListenableBuilder(
         valueListenable: favarotList,
-        builder: (context, value, child) => (favarotList.value.isEmpty)
-            ? noSong()
-            : favouritebuilderfunction(),
+        builder: (context, value, child) =>
+            (favarotList.value.isEmpty) ? noSong() : favouritebuilderfunction(),
       ),
     );
   }
@@ -51,10 +51,9 @@ class _favouriteScreenState extends State<favouriteScreen> {
     );
   }
 
-
   Center noSong() {
     return const Center(
-    child: Text(
+      child: Text(
         'Favourite is empty',
         style: TextStyle(fontFamily: 'Peddana', fontSize: 14),
       ),
@@ -68,8 +67,8 @@ class _favouriteScreenState extends State<favouriteScreen> {
         return Padding(
           padding: const EdgeInsets.only(top: 20),
           child: InkWell(
-            onTap: () async{
-              playingAudio(favarotList.value,index);
+            onTap: () async {
+              playingAudio(favarotList.value, index);
               //convertToAudioList(favarotList.value);
               showBottomSheet(
                 context: context,
@@ -103,25 +102,25 @@ class _favouriteScreenState extends State<favouriteScreen> {
                 currentSong: favarotList.value[index],
                 isfav: true,
               ),
-              trailing2: PopupMenuButton(shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-                //     onSelected: (value) {
-                //       if (value == 0) {
-                //         Navigator.of(context).push(MaterialPageRoute(
-                //             builder: (ctx) => AddToPlaylist(
-                //                   addToPlaylistSong: favarotList.value[index],
-                //                 )));
-                //       }
-                //     },
-                //     shape: RoundedRectangleBorder(
-                //         borderRadius: BorderRadius.circular(15)),
-                //     color: backgroundColorDark,
-                //     icon: const FaIcon(
-                //       FontAwesomeIcons.ellipsisVertical,
-                //       color: whiteColor,
-                //       size: 26,
-                //     ),
+              trailing2: PopupMenuButton(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                onSelected: (value) {
+                  if (value == 0) {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (ctx) => AddToPlaylist(
+                            addToPlaylistSong: favarotList.value[index],
+                            ),
+                      ),
+                    );
+                  }
+                },
+                icon: const FaIcon(
+                  FontAwesomeIcons.ellipsisVertical,
+                  size: 26,
+                ),
                 itemBuilder: (context) => [
                   PopupMenuItem(
                     value: 0,

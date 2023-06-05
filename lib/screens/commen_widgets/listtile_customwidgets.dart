@@ -2,13 +2,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ListtileCustomWidget extends StatelessWidget {
-  int index;
-  BuildContext context;
-  Widget? leading;
-  Widget? title;
-  Widget? subtitle;
-  Widget? trailing1;
-  Widget? trailing2;
+  final int index;
+  final BuildContext context;
+  final Widget? leading;
+  final Widget? title;
+  final Widget? subtitle;
+  final Widget? trailing1;
+  final Widget? trailing2;
 
   ListtileCustomWidget(
       {super.key,

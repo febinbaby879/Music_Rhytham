@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:moon_walker/screens/home_screens/homeList.dart';
 import 'package:moon_walker/widgets/bottomNavigationBar.dart';
-import 'package:moon_walker/widgets/gridviewhome.dart';
 
 class homeGrid extends StatelessWidget {
   const homeGrid({super.key});
@@ -58,7 +57,7 @@ class homeGrid extends StatelessWidget {
                           borderRadius: BorderRadius.circular(15),
                           image: DecorationImage(
                               image: AssetImage(
-                              'assets/images/best websites for free music1640190686306255.jpg'),
+                              'assets/images/img4.jpg'),
                               fit: BoxFit.cover),
                         ),
                       ),
@@ -70,7 +69,7 @@ class homeGrid extends StatelessWidget {
                           borderRadius: BorderRadius.circular(15),
                           image: DecorationImage(
                           image: AssetImage(
-                          'assets/images/166142112-mans-hands-playing-acoustic-guitar-close-up-acoustic-guitars-playing-music-concept-guitars.jpg'),
+                          'assets/images/img4.jpg'),
                           fit: BoxFit.cover),
                         ),
                       ),
@@ -109,9 +108,9 @@ class homeGrid extends StatelessWidget {
                 SizedBox(
                   height: MediaQuery.of(context).size.height*.02,
                 ),
-                Expanded(
-                  child: gridHome(),
-                ),
+                //Expanded(
+                 // child: gridHome(),
+                //),
               ],
             ),
           ),

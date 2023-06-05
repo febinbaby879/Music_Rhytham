@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:moon_walker/screens/playlist/play_list.dart';
 import 'package:moon_walker/screens/playlist/play_list_class.dart';
 
 import '../../database/play_lists/db_functions/play_listfunc.dart';
 
 class AddToPlaylist extends StatefulWidget {
-  AddToPlaylist({super.key});
+  final tittle;
+  AddToPlaylist({super.key,required this.tittle});
 
   @override
   State<AddToPlaylist> createState() => _AddToPlaylistState();
 }
+ValueNotifier<List<EachPlayList>> playlistSearchNotifier = ValueNotifier([]);
+TextEditingController _playlistSearchControllor = TextEditingController();
 
-// ----playlistBodyNotifier for rebuilding the playlist body
-ValueNotifier playlistBodyNotifier = ValueNotifier([]);
-// ----playlistNotifier for  creating playlist objects and its contain the playlist name and container
-ValueNotifier<List<EachPlayList>> playListNotifier = ValueNotifier([]);
 //Form State control key
 final playlistFormkey = GlobalKey<FormState>();
 //Text access
@@ -24,114 +25,109 @@ class _AddToPlaylistState extends State<AddToPlaylist> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('ADD TO PLAYLIST'),
-        centerTitle: true,
-        leading: InkWell(
-          onTap: () => Navigator.of(context).pop(),
-          child: const Center(
-            child: FaIcon(
-              FontAwesomeIcons.angleLeft,
-            ),
-          ),
-        ),
-      ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          SizedBox(
-            height: 20,
-          ),
-          InkWell(
-            onTap: () {
-              createNewplaylistForAddToPlaylist(context);
-            },
-            child: Container(
-              height: 50,
-              width: MediaQuery.of(context).size.width * 0.5,
-              decoration: BoxDecoration(
-                color: Colors.amber,
-                borderRadius: BorderRadius.circular(25),
+      appBar: appBar(context),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SizedBox(
+                height: 15,
               ),
-              child: Center(
-                child: Text(
-                  'NEW PLAYLIST',
+              TextFormField(
+                decoration: InputDecoration(
+                  hintText: 'Find playlist',
+                  prefixIcon: Icon(
+                    Icons.search_sharp
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(21),
+                  ),
                 ),
               ),
-            ),
-          ),
-          SizedBox(
-            height: 21,
-          ),
-          Expanded(
-            child: ValueListenableBuilder(
-              valueListenable: playListNotifier,
-              builder: (context, list, child) {
-                return ListView.separated(
-                    itemBuilder: (ctx, index) {
-                      return Card(
-                        color: Colors.purple,
-                        child: ListTile(
-                          leading: Container(
-                            width: 50,
-                            height: 50,
-                            child: ClipOval(
-                              child: Image.asset(
-                                'assets/images/musizz.jpg',
-                                fit: BoxFit.cover,
+              SizedBox(
+                height: 15,
+              ),
+              Expanded(
+                child: ValueListenableBuilder(
+                  valueListenable: playListNotifier,
+                  builder: (context, list, child) {
+                    return ListView.separated(
+                        itemBuilder: (ctx, index) {
+                          return InkWell(
+                            onTap: () {
+                              // Navigator.of(context).push(
+                              //   MaterialPageRoute(
+                              //     builder: (context) => playListUnique(playList: playListNotifier.value[index],),
+                              //   ),
+                              // );
+                            },
+                            child: Card(
+                              child: ListTile(
+                                leading: Container(
+                                  width: 50,
+                                  height: 50,
+                                  child: ClipOval(
+                                    child: Image.asset(
+                                      'assets/images/images.jpeg',
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                ),
+                                title: Text(list[index].name),
                               ),
                             ),
-                          ),
-                          title: Text(list[index].name),
-                          //trailing: PopupMenuButton(
-                            // onSelected: (value) {
-                            //   if (value == 0) {
-                            //     Navigator.of(context).push(
-                            //       MaterialPageRoute(
-                            //         builder: (context) => AddToPlaylist(),
-                            //       ),
-                            //     );
-                            //   }
-                            // shape: RoundedRectangleBorder(
-                            //   borderRadius: BorderRadius.circular(12),
-                            // ),
-                            // shadowColor: Colors.brown,
-                            // itemBuilder: (context) => [
-                            //   PopupMenuItem(
-                            //     child: Row(
-                            //       mainAxisAlignment:
-                            //       MainAxisAlignment.spaceBetween,
-                            //       children: [
-                            //         Icon(Icons.delete),
-                            //         Text('Delete'),
-                            //       ],
-                            //     ),
-                            //   ),
-                            //   PopupMenuItem(
-                            //     child: Row(
-                            //       mainAxisAlignment:
-                            //       MainAxisAlignment.spaceBetween,
-                            //       children: [
-                            //         Icon(Icons.create),
-                            //         Text('Renam'),
-                            //       ],
-                            //     ),
-                            //   ),
-                            // ],
-                          //),
-                        ),
-                      );
-                    },
-                    separatorBuilder: (ctx, index) {
-                      return SizedBox(
-                        height: 20,
-                      );
-                    },
-                    itemCount: list.length);
-              },
-            ),
+                          );
+                        },
+                        separatorBuilder: (ctx, index) {
+                          return SizedBox(
+                            height: 20,
+                          );
+                        },
+                        itemCount: list.length);
+                  },
+                ),
+              ),
+              Container(
+                width: double.infinity,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {
+                        createNewplaylistForAddToPlaylist(context);
+                      },
+                      child: Text('New playlist'),
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
-        ],
+
+        ),
+        
+      ),
+      
+    );
+  }
+
+  AppBar appBar(BuildContext context) {
+    return AppBar(
+      title: Text(
+        'PLAY LISTS',
+        style: GoogleFonts.kavoon(fontSize: 21),
+      ),
+      centerTitle: true,
+      automaticallyImplyLeading: false,
+      leading: InkWell(
+        onTap: () => Navigator.of(context).pop(),
+        child: const Center(
+          child: FaIcon(
+            FontAwesomeIcons.angleLeft,
+          ),
+        ),
       ),
     );
   }
@@ -167,14 +163,16 @@ class _AddToPlaylistState extends State<AddToPlaylist> {
                   return null;
                 },
                 decoration: InputDecoration(
-                    labelText: 'Enter Playlist Name',
-                    prefixIcon: const Icon(
-                      Icons.mode_edit_outline_rounded,
-                      size: 30,
-                    ),
-                    border: OutlineInputBorder(
-                        //borderSide:  BorderSide(color: redColor),
-                        borderRadius: BorderRadius.circular(10))),
+                  labelText: 'Enter Playlist Name',
+                  prefixIcon: const Icon(
+                    Icons.mode_edit_outline_rounded,
+                    size: 30,
+                  ),
+                  border: OutlineInputBorder(
+                    //borderSide:  BorderSide(color: redColor),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
               ),
             ),
             Row(
