@@ -17,7 +17,7 @@ class AddToPlaylist extends StatefulWidget {
 }
 
 //Form State control key
-final playlistFormkey = GlobalKey<FormState>();
+final playListCreateFormKey = GlobalKey<FormState>();
 //Text access
 TextEditingController playlistControllor = TextEditingController();
 ValueNotifier<List<EachPlayList>> playlistSearchNotifier = ValueNotifier([]);

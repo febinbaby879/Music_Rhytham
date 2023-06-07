@@ -180,7 +180,7 @@ class _playListState extends State<playList> {
       ),
     );
   }
-  
+
 
   deleteConfrimDilog(BuildContext context, int i) {
     showDialog(
@@ -215,7 +215,7 @@ class _playListState extends State<playList> {
         return AlertDialog(
           title: Text("Rename playlist"),
           content: Form(
-            key: playlistFormkey,
+            key: playListCreateFormKey,
             child: TextFormField(
               decoration: InputDecoration(
                   border: OutlineInputBorder(
@@ -247,7 +247,7 @@ class _playListState extends State<playList> {
             ElevatedButton(
               child: Text("OK"),
               onPressed: () {
-                if (playlistFormkey.currentState!.validate()) {
+                if (playListCreateFormKey.currentState!.validate()) {
                   setState(() {
                     playlistrename(i, rename.text);
                   });
