@@ -7,7 +7,7 @@ import 'package:moon_walker/screens/commen_widgets/snackbar.dart';
 
 class favIcon extends StatefulWidget {
   Songs currentSong;
-  bool isfav;
+  bool isfav=true;
   favIcon({super.key, required this.currentSong, required this.isfav});
 
   @override
@@ -24,11 +24,11 @@ class _favIconState extends State<favIcon> {
             if (widget.isfav) {
               widget.isfav = false;
              removeFavourite(widget.currentSong);
-             snackbarAdding(text: 'Removed from favorite', context: context, backgroundColor: Colors.blueGrey);
+             SnackBaaaar(text: 'Removed from favorite', context: context, backgroundColor: Colors.blueGrey);
             } else {
               widget.isfav=true;
               addFavourat(widget.currentSong);
-              snackbarAdding(text: 'Added to favourite', context: context, backgroundColor: Colors.blueGrey);
+              SnackBaaaar(text: 'Added to favourite', context: context, backgroundColor: Colors.blueGrey);
             }
           },
         );

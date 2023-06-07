@@ -1,6 +1,7 @@
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:moon_walker/database/Allsongs/model/allSongModel.dart';
 import 'package:moon_walker/database/play_lists/model/play_list_model.dart';
+import 'package:moon_walker/screens/fetchPermission/fetch_songs.dart';
 import 'package:moon_walker/screens/playlist/playListUnique.dart';
 import 'package:moon_walker/screens/playlist/play_list.dart';
 import 'package:moon_walker/screens/playlist/play_list_class.dart';
@@ -26,6 +27,25 @@ Future playlistrename(int index, String newname) async {
   playListNotifier.notifyListeners();
   playlistBodyNotifier.notifyListeners();
 }
+
+
+getplayList() async {
+    Box<playListClass> playlistdb = await Hive.openBox('PlayList');
+    for (playListClass elements in playlistdb.values) {
+      String playlistname = elements.playListName;
+      EachPlayList getplayList = EachPlayList(name: playlistname);
+      for (int id in elements.items) {
+        for (Songs songs in allSongs) {
+          if (id == songs.id) {
+            getplayList.Container.add(songs);
+            break;
+          }
+        }
+      }
+      playListNotifier.value.add(getplayList);
+    }
+  } 
+
 
 Future playlistAddDB(Songs addingSong, String playlistName) async {
   Box<playListClass> playlistdb = await Hive.openBox('playlist');
@@ -59,7 +79,7 @@ Future playlistdelete(int index) async {
   playlistBodyNotifier.notifyListeners();
 }
 
-Future playlistRemoveDB(Songs removingSong, String playlistName) async {
+Future playListSongDelete(Songs removingSong, String playlistName) async {
   Box<playListClass> playlistdb = await Hive.openBox('playlist');
   for (playListClass element in playlistdb.values) {
     if (element.playListName == playlistName) {

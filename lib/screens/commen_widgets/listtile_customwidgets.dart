@@ -1,7 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class ListtileCustomWidget extends StatelessWidget {
+class listTileWidget extends StatelessWidget {
   final int index;
   final BuildContext context;
   final Widget? leading;
@@ -10,7 +9,7 @@ class ListtileCustomWidget extends StatelessWidget {
   final Widget? trailing1;
   final Widget? trailing2;
 
-  ListtileCustomWidget(
+  listTileWidget(
       {super.key,
       required this.index,
       required this.context,
@@ -22,58 +21,69 @@ class ListtileCustomWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-      ),
-      height: 75,
-      child: Row(
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(left: 18, right: 18),
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(5),
+    return Card(
+      elevation: 4.0,
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12),
+          gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    Color(0xFFD89B),
+                    Color.fromARGB(255, 215, 249, 176),
+                  ],
+                ),
+        ),
+        height: 75,
+        child: Row(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 18, right: 18),
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                height: 53,
+                width: 60,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(5), child: leading),
               ),
-              height: 53,
-              width: 60,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(5), child: leading),
             ),
-          ),
-          SizedBox(
-            width: MediaQuery.of(context).size.width * 0.45,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 18, bottom: 7),
-                  child: title),
-                Padding(
-                  padding: const EdgeInsets.all(0),
-                  child: subtitle,
-                )
-              ],
+            SizedBox(
+              width: MediaQuery.of(context).size.width * 0.45,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 18, bottom: 7),
+                    child: title),
+                  Padding(
+                    padding: const EdgeInsets.all(0),
+                    child: subtitle,
+                  )
+                ],
+              ),
             ),
-          ),
-          SizedBox(
-            width: MediaQuery.of(context).size.width * 0.01,
-          ),
-          Expanded(
-            child: trailing1 == null
-                ? const SizedBox()
-                : SizedBox(
-                    child: trailing1,
-                  ),
-          ),
-          Expanded(
-            child: trailing2 == null
-                ? const SizedBox()
-                : SizedBox(
-                    child: trailing2,
-                  ),
-          ),
-        ],
+            SizedBox(
+              width: MediaQuery.of(context).size.width * 0.01,
+            ),
+            Expanded(
+              child: trailing1 == null
+                  ? const SizedBox()
+                  : SizedBox(
+                      child: trailing1,
+                    ),
+            ),
+            Expanded(
+              child: trailing2 == null
+                  ? const SizedBox()
+                  : SizedBox(
+                      child: trailing2,
+                    ),
+            ),
+          ],
+        ),
       ),
     );
   }

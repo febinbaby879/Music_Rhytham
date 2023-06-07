@@ -6,27 +6,27 @@ part of 'allSongModel.dart';
 // TypeAdapterGenerator
 // **************************************************************************
 
-class SongsAllAdapter extends TypeAdapter<SongsAll> {
+class SongsAdapter extends TypeAdapter<Songs> {
   @override
   final int typeId = 0;
 
   @override
-  SongsAll read(BinaryReader reader) {
+  Songs read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return SongsAll(
+    return Songs(
       songname: fields[0] as String?,
       artist: fields[1] as String?,
       duration: fields[2] as int?,
-      id: fields[4] as int?,
       songurl: fields[3] as String?,
+      id: fields[4] as int?,
     );
   }
 
   @override
-  void write(BinaryWriter writer, SongsAll obj) {
+  void write(BinaryWriter writer, Songs obj) {
     writer
       ..writeByte(5)
       ..writeByte(0)
@@ -47,7 +47,7 @@ class SongsAllAdapter extends TypeAdapter<SongsAll> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is SongsAllAdapter &&
+      other is SongsAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

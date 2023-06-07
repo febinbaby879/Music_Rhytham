@@ -21,13 +21,16 @@ class favouriteScreen extends StatefulWidget {
 class _favouriteScreenState extends State<favouriteScreen> {
   @override
   Widget build(BuildContext context) {
-    //favFetch();
+    //getFAvourite();
     return Scaffold(
       appBar: appBarfav(context),
-      body: ValueListenableBuilder(
-        valueListenable: favarotList,
-        builder: (context, value, child) =>
-            (favarotList.value.isEmpty) ? noSong() : favouritebuilderfunction(),
+      body: Padding(
+        padding: const EdgeInsets.only(left:9.0,right: 9),
+        child: ValueListenableBuilder(
+          valueListenable: favarotList,          
+          builder: (context, value, child) =>
+          (favarotList.value.isEmpty) ? noSong() : favouritebuilderfunction(),
+        ),
       ),
     );
   }
@@ -65,10 +68,10 @@ class _favouriteScreenState extends State<favouriteScreen> {
       physics: const BouncingScrollPhysics(),
       itemBuilder: (context, index) {
         return Padding(
-          padding: const EdgeInsets.only(top: 20),
+          padding: const EdgeInsets.only(top: 20,),
           child: InkWell(
             onTap: () async {
-              playingAudio(favarotList.value, index);
+              AudioConvert(favarotList.value, index);
               //convertToAudioList(favarotList.value);
               showBottomSheet(
                 context: context,
@@ -76,7 +79,7 @@ class _favouriteScreenState extends State<favouriteScreen> {
               );
               //playingAudio(favarotList.value, index);
             },
-            child: ListtileCustomWidget(
+            child: listTileWidget(
               index: index,
               context: context,
               title: Text(

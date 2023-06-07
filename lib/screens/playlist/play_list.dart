@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:moon_walker/screens/playlist/add_toplaList.dart';
+import 'package:moon_walker/screens/commen_widgets/newPLay_list.dart';
+import 'package:moon_walker/screens/const.dart';
+import 'package:moon_walker/screens/playlist/add.dart';
 import 'package:moon_walker/screens/playlist/playListUnique.dart';
 import 'package:moon_walker/screens/playlist/play_list_class.dart';
 import '../../database/play_lists/db_functions/play_listfunc.dart';
@@ -38,6 +40,7 @@ class _playListState extends State<playList> {
                             : playListView(),
                   ),
                 ),
+                //playlistBodyNotifier.notifyListeners(),
                 Container(
                   width: double.infinity,
                   child: Row(
@@ -62,7 +65,7 @@ class _playListState extends State<playList> {
 
   Center emptyPlaylist() {
     return Center(
-      child: Text('Playlist is empty'),
+      child: Text('Oops Playlist is empty'),
     );
   }
 
@@ -73,57 +76,78 @@ class _playListState extends State<playList> {
           itemBuilder: (context, i) {
             return InkWell(
               onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) =>
-                        playListUnique(playList: playListNotifier.value[i])));
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          playListUnique(playList: playListNotifier.value[i])),
+                );
               },
               child: Card(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
-                child: ListTile(
-                  hoverColor: Colors.amber,
-                  leading: Container(
-                    width: 50,
-                    height: 50,
-                    child: Image.asset('assets/images/images.jpeg'),
-                  ),
-                  title: Text(playListNotifier.value[i].name),
-                  trailing: PopupMenuButton(
-                    shape: BeveledRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
+                child: Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: miniplayerColor,
                     ),
-                    onSelected: (value) {
-                      if (value == 0) {
-                        rename(
-                          context,
-                          i,
-                        );
-                      } else {
-                        delete(context);
-                      }
-                    },
-                    itemBuilder: (context) => [
-                      PopupMenuItem(
-                          value: 0,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Icon(Icons.edit),
-                              Text('Edit'),
-                            ],
-                          )),
-                      PopupMenuItem(
-                        value: 1,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Icon(Icons.delete),
-                            Text('Delete'),
-                          ],
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  height: 85,
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 5.0, top: 15),
+                    child: ListTile(
+                      leading: Container(
+                        width: 50,
+                        height: 50,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12),
+                          image: DecorationImage(
+                              image: AssetImage('assets/images/img2.jpg'),
+                              fit: BoxFit.cover),
                         ),
                       ),
-                    ],
+                      title: Text(playListNotifier.value[i].name),
+                      trailing: PopupMenuButton(
+                        shape: BeveledRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        onSelected: (value) {
+                          if (value == 0) {
+                            rename(
+                              context,
+                              i,
+                            );
+                          } else {
+                            deleteConfrimDilog(context, i);
+                          }
+                        },
+                        itemBuilder: (context) => [
+                          PopupMenuItem(
+                            value: 0,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Icon(Icons.edit),
+                                Text('Edit'),
+                              ],
+                            ),
+                          ),
+                          PopupMenuItem(
+                            value: 1,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Icon(Icons.delete),
+                                Text('Delete'),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 ),
               ),
@@ -131,7 +155,7 @@ class _playListState extends State<playList> {
           },
           separatorBuilder: (context, i) {
             return SizedBox(
-              height: 14,
+              height: 6,
             );
           },
           itemCount: playListNotifier.value.length)),
@@ -156,94 +180,30 @@ class _playListState extends State<playList> {
       ),
     );
   }
+  
 
-  createNewplaylist(BuildContext context) {
-    return showDialog(
-      context: context,
-      builder: (ctx) {
-        return AlertDialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
-          content: const Text(
-            'Create New Playlist',
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-          ),
-          actions: [
-            Form(
-              key: playlistFormkey,
-              child: TextFormField(
-                maxLength: 15,
-                controller: playlistControllor,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'name is requiered';
-                  } else {
-                    for (var element in playListNotifier.value) {
-                      if (element.name == playlistControllor.text) {
-                        return 'name is alredy exist';
-                      }
-                    }
-                  }
-                  return null;
-                },
-                decoration: InputDecoration(
-                    labelText: 'Enter Playlist Name',
-                    prefixIcon: const Icon(
-                      Icons.mode_edit_outline_rounded,
-                      size: 30,
-                    ),
-                    border: OutlineInputBorder(
-                        //borderSide:  BorderSide(color: redColor),
-                        borderRadius: BorderRadius.circular(10))),
-              ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: ElevatedButton(
-                    onPressed: () {
-                      //setState(() {});
-                      playlistControllor.text = '';
-                      Navigator.of(context).pop();
-                    },
-                    style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 22,
-                        ),
-                        textStyle: const TextStyle(
-                          fontSize: 15,
-                        )),
-                    child: const Text('Cancel'),
-                  ),
-                ),
-                ElevatedButton(
+  deleteConfrimDilog(BuildContext context, int i) {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            //title: Text('Are you sure'),
+            content: Text('ARE YOU SURE'),
+            actions: [
+              ElevatedButton(
                   onPressed: () {
-                    if (playlistFormkey.currentState!.validate()) {
-                      playlistCreating(playlistControllor.text);
-                      //setState(() {});
-                      playlistControllor.text = '';
-                      Navigator.of(ctx).pop();
-                    }
+                    Navigator.of(context).pop();
                   },
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.green,
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 21,
-                      ),
-                      textStyle: const TextStyle(
-                        fontSize: 15,
-                      )),
-                  child: const Text('Confirm'),
-                ),
-              ],
-            ),
-          ],
-        );
-      },
-    );
+                  child: Text('No')),
+              ElevatedButton(
+                  onPressed: () {
+                    playlistdelete(i);
+                    Navigator.of(context).pop();
+                  },
+                  child: Text('Yes')),
+            ],
+          );
+        });
   }
 
   rename(BuildContext context, int i) {
@@ -301,6 +261,4 @@ class _playListState extends State<playList> {
       },
     );
   }
-
-  delete(BuildContext context) {}
 }

@@ -55,7 +55,7 @@ class _playListUniqueState extends State<playListUnique> {
                         itemBuilder: ((context, index) {
                           return InkWell(
                               onTap: () {
-                                playingAudio(widget.playList.Container, index);
+                                AudioConvert(widget.playList.Container, index);
                                 showBottomSheet(
                                   context: context,
                                   builder: (context) => miniLast(),
@@ -76,15 +76,15 @@ class _playListUniqueState extends State<playListUnique> {
     );
   }
 
-  ListtileCustomWidget playListTileCalling(BuildContext context, int i) {
-    return ListtileCustomWidget(
+ playListTileCalling(BuildContext context, int i) {
+    return listTileWidget(
       index: i,
       context: context,
       leading: QueryArtworkWidget(
         id: widget.playList.Container[i].id!,
         type: ArtworkType.AUDIO,
         nullArtworkWidget: ClipRRect(
-          borderRadius: BorderRadius.circular(27),
+          borderRadius: BorderRadius.circular(25),
           child: Image.asset(
             'assets/images/musizz.jpg',
             fit: BoxFit.cover,
@@ -103,11 +103,11 @@ class _playListUniqueState extends State<playListUnique> {
       trailing2: PopupMenuButton(
         onSelected: (value) {
           if (value == 0) {
-            snackbarAdding(
+            SnackBaaaar(
                 text: 'Remove from playlist ${widget.playList.name}',
                 context: context,
-                backgroundColor: Colors.amber);
-            playlistRemoveDB(
+                backgroundColor: Colors.blueGrey);
+            playListSongDelete(
                 widget.playList.Container[i], widget.playList.name);
             setState(() {
               widget.playList.Container.removeAt(i);

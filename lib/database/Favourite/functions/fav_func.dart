@@ -10,13 +10,13 @@ favarotList.value.insert(0, songs);
  Box <Favmodel>favDB=await Hive.openBox<Favmodel>('Favarout');
  Favmodel temp=Favmodel(id: songs.id);
  await favDB.put(songs.id,temp);
- favFetch();
+ getFAvourite();
  //print(favDB.length);
  favarotList.notifyListeners();
 }
 
 
-favFetch() async {
+getFAvourite() async {
   favarotList.value.clear();
   List<Favmodel> favSongCheck = [];
   final favDb = await Hive.openBox<Favmodel>('Favarout');
@@ -51,5 +51,5 @@ removeFavourite(Songs song) async {
       break;
     }
   }
-  favFetch();
+  getFAvourite();
 }

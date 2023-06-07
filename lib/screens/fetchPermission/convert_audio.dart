@@ -4,8 +4,8 @@ import 'package:moon_walker/screens/const.dart';
 
 List<Audio> allSongsAudioList = [];
 bool notification = true;
-playingAudio(List<Songs> songs, int index) async {
-  //currentlyplaying = songs[index];
+double volume = 1;
+AudioConvert(List<Songs> songs, int index) async {
   assetsAudioPlayer.stop();
   allSongsAudioList.clear();
   for (int i = 0; i < songs.length; i++) {
@@ -20,9 +20,12 @@ playingAudio(List<Songs> songs, int index) async {
       ),
     );
   }
+
   await assetsAudioPlayer.open(
-      Playlist(audios: allSongsAudioList, startIndex: index),
-      //showNotification: notification,
-      notificationSettings: const NotificationSettings(stopEnabled: false));
+    volume: volume,
+    Playlist(audios: allSongsAudioList, startIndex: index),
+    showNotification: notification,
+    notificationSettings: const NotificationSettings(stopEnabled: false),
+  );
   assetsAudioPlayer.setLoopMode(LoopMode.playlist);
 }

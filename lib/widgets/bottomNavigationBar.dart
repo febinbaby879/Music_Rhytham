@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:moon_walker/screens/home_screens/homeList.dart';
-import 'package:moon_walker/screens/mostplayed.dart';
 import 'package:moon_walker/screens/recent_page.dart';
 import 'package:moon_walker/screens/settings/setting.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
@@ -15,7 +14,6 @@ class _musicAppBottomNavState extends State<musicAppBottomNav> {
   final pages = [
     MyHomePage(), 
     RecentList(), 
-    MostPlayed(), 
     SettingsScreen(),
     ];
   int _selectedIndex = 0;
@@ -31,7 +29,6 @@ class _musicAppBottomNavState extends State<musicAppBottomNav> {
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.all(0.0),
         child: Container(
-          color: Colors.grey.shade400,
           child: GNav(
             selectedIndex: _selectedIndex,
             onTabChange: (index) {
@@ -41,7 +38,7 @@ class _musicAppBottomNavState extends State<musicAppBottomNav> {
             },
             backgroundColor: Colors.grey,
             tabBackgroundColor: Colors.grey.shade400,
-            padding: EdgeInsets.all(14),
+            padding: EdgeInsets.all(8),
             tabs: [
               GButton(
                 icon: Icons.music_note_outlined,
@@ -50,10 +47,6 @@ class _musicAppBottomNavState extends State<musicAppBottomNav> {
               GButton(
                 icon: Icons.recommend,
                 text: 'Recent play',
-              ),
-              GButton(
-                icon: Icons.motion_photos_off,
-                text: 'Most songs',
               ),
               GButton(
                 icon: Icons.settings,

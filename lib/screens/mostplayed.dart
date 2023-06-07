@@ -6,27 +6,29 @@ class MostPlayed extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Container(
-          child: Column(
-            children: [
-              Container(
-                child: Row(
-                  children: [
-                    Text(
-                      'Most played',
-                      style: GoogleFonts.kavoon(fontSize: 18),
-                    ),
-                  ],
+    return Scaffold(
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Container(
+            child: Column(
+              children: [
+                Container(
+                  child: Row(
+                    children: [
+                      Text(
+                        'Most played',
+                        style: GoogleFonts.kavoon(fontSize: 18),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              
-            ],
+                SizedBox(
+                  height: 20,
+                ),
+                
+              ],
+            ),
           ),
         ),
       ),
