@@ -39,8 +39,8 @@ createNewplaylist(BuildContext context) {
                   Icons.mode_edit_outline_rounded,
                   size: 30,
                 ),
-                border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10)),
+                border:
+                    OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
               ),
             ),
           ),
@@ -55,6 +55,7 @@ createNewplaylist(BuildContext context) {
                     Navigator.of(context).pop();
                   },
                   style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.purple,
                       padding: const EdgeInsets.symmetric(
                         horizontal: 22,
                       ),
@@ -73,13 +74,14 @@ createNewplaylist(BuildContext context) {
                   }
                 },
                 style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.green,
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 21,
-                    ),
-                    textStyle: const TextStyle(
-                      fontSize: 15,
-                    )),
+                  backgroundColor: Colors.purple,
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 21,
+                  ),
+                  textStyle: const TextStyle(
+                    fontSize: 15,
+                  ),
+                ),
                 child: const Text('Confirm'),
               ),
             ],

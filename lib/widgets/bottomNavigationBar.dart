@@ -1,8 +1,9 @@
+import 'package:ff_navigation_bar_plus/ff_navigation_bar_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:moon_walker/screens/recentsongs/recentJUstcheck.dart';
 import 'package:moon_walker/screens/home_screens/homeList.dart';
-import 'package:moon_walker/screens/recent_page.dart';
 import 'package:moon_walker/screens/settings/setting.dart';
-import 'package:google_nav_bar/google_nav_bar.dart';
 
 class musicAppBottomNav extends StatefulWidget {
   musicAppBottomNav({super.key});
@@ -12,49 +13,51 @@ class musicAppBottomNav extends StatefulWidget {
 
 class _musicAppBottomNavState extends State<musicAppBottomNav> {
   final pages = [
-    MyHomePage(), 
-    RecentList(), 
+    
+    //RecentList(),
+    RecentPage(),
+    MyHomePage(),
     SettingsScreen(),
-    ];
-  int _selectedIndex = 0;
+  ];
+  int _selectedIndex = 1;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //bottomSheet: miniLast(),
       body: Stack(
         children: [
           pages[_selectedIndex],
         ],
       ),
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.all(0.0),
-        child: Container(
-          child: GNav(
-            selectedIndex: _selectedIndex,
-            onTabChange: (index) {
-              setState(() {
-                _selectedIndex = index;
-              });
-            },
-            backgroundColor: Colors.grey,
-            tabBackgroundColor: Colors.grey.shade400,
-            padding: EdgeInsets.all(8),
-            tabs: [
-              GButton(
-                icon: Icons.music_note_outlined,
-                text: 'All songs',
-              ),
-              GButton(
-                icon: Icons.recommend,
-                text: 'Recent play',
-              ),
-              GButton(
-                icon: Icons.settings,
-                text: 'Settings',
-              ),
-            ],
-          ),
+      bottomNavigationBar: FFNavigationBar(
+        theme: FFNavigationBarTheme(
+          barBackgroundColor: Colors.white,
+          selectedItemBackgroundColor: Colors.purple,
+          selectedItemIconColor: Colors.white,
+          selectedItemLabelColor: Colors.purple,
+          unselectedItemIconColor: Colors.purple.shade200,
+          unselectedItemLabelColor: Colors.purple.shade300
         ),
+        selectedIndex: _selectedIndex,
+        onSelectTab: (index) {
+          setState(() {
+            _selectedIndex = index;
+          });
+        },
+        items: [
+          FFNavigationBarItem(
+            iconData: FontAwesomeIcons.recycle,
+            label: 'Rececnts',
+          ),
+          FFNavigationBarItem(
+            iconData: Icons.home_filled,
+            label: 'Home',
+          ),
+          FFNavigationBarItem(
+            iconData: Icons.settings,
+            label: 'Settings',
+          ),
+        ],
       ),
     );
   }

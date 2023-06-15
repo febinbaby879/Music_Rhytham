@@ -1,18 +1,20 @@
+import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:moon_walker/database/Allsongs/model/allSongModel.dart';
 import 'package:moon_walker/database/Favourite/model/model.dart';
-import 'package:moon_walker/screens/favaouriteScreen/favouriteScreen.dart';
 import 'package:moon_walker/screens/fetchPermission/fetch_songs.dart';
 
+ValueNotifier<List<Songs>> favarotList = ValueNotifier([]);
 
 Future<void> addFavourat(Songs songs)async{
 favarotList.value.insert(0, songs);
  Box <Favmodel>favDB=await Hive.openBox<Favmodel>('Favarout');
  Favmodel temp=Favmodel(id: songs.id);
- await favDB.put(songs.id,temp);
- getFAvourite();
- //print(favDB.length);
+ await favDB.add(temp);
+
  favarotList.notifyListeners();
+  getFAvourite();
+
 }
 
 

@@ -1,6 +1,6 @@
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:moon_walker/database/Allsongs/model/allSongModel.dart';
-import 'package:moon_walker/screens/const.dart';
+import 'package:moon_walker/screens/contatants/const.dart';
 
 List<Audio> allSongsAudioList = [];
 bool notification = true;
@@ -26,6 +26,9 @@ AudioConvert(List<Songs> songs, int index) async {
     Playlist(audios: allSongsAudioList, startIndex: index),
     showNotification: notification,
     notificationSettings: const NotificationSettings(stopEnabled: false),
+    
   );
   assetsAudioPlayer.setLoopMode(LoopMode.playlist);
 }
+
+

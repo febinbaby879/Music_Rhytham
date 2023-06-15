@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:moon_walker/screens/const.dart';
+import 'package:moon_walker/database/most/mostlyplayed.dart';
+import 'package:moon_walker/screens/contatants/const.dart';
 import 'package:moon_walker/screens/now_mini/now_playing.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
@@ -13,8 +16,10 @@ class miniLast extends StatefulWidget {
 }
 
 class _miniLastState extends State<miniLast> {
+  
   @override
   Widget build(BuildContext context) {
+    
     return InkWell(
       onTap: () {
         Navigator.of(context).push(
@@ -29,10 +34,10 @@ class _miniLastState extends State<miniLast> {
         ),
         child: SizedBox(
           height: MediaQuery.of(context).size.width * 0.18,
-          // height: 67,
           width: MediaQuery.of(context).size.width * 1,
           child: Container(
             decoration: BoxDecoration(
+              image: DecorationImage(image: AssetImage(musicImages.instance.miniIMG),fit: BoxFit.cover,opacity: 190),
               gradient: LinearGradient(
                 colors: miniplayerColor,
                 begin: Alignment.bottomLeft,
@@ -40,19 +45,22 @@ class _miniLastState extends State<miniLast> {
             ),
             child: assetsAudioPlayer.builderCurrent(
               builder: (context, playing) {
+               int id= int.parse(playing.audio.audio.metas.id!);
+               currentPlayingfinder(id);
+               mostlyPlayedaddTodb(id);
                 return Row(
                   children: [
                     Padding(
                       padding: const EdgeInsets.only(left: 8.0),
-                      child: Container(
+                      child: SizedBox(
                         height: MediaQuery.of(context).size.width * .15,
                         width: MediaQuery.of(context).size.width * .15,
                         child: ClipOval(
                           child: QueryArtworkWidget(
-                            id: int.parse(playing.audio.audio.metas.id!),
+                            id: id,
                             type: ArtworkType.AUDIO,
                             nullArtworkWidget: Image.asset(
-                              'assets/images/musizz.jpg',
+                              musicImages.instance.queryImage,
                               fit: BoxFit.cover,
                             ),
                           ),
@@ -81,7 +89,7 @@ class _miniLastState extends State<miniLast> {
                       ),
                     ),
                     IconButton(
-                      icon: Icon(Icons.skip_previous),
+                      icon:const Icon(Icons.skip_previous),
                       onPressed: () {
                         assetsAudioPlayer.previous();
                       },
@@ -94,15 +102,15 @@ class _miniLastState extends State<miniLast> {
                         player: assetsAudioPlayer,
                         builder: (context, isPlaying) {
                           if (isPlaying) {
-                            return Icon(Icons.pause);
+                            return const Icon(Icons.pause);
                           } else {
-                            return Icon(Icons.play_arrow);
+                            return const Icon(Icons.play_arrow);
                           }
                         },
                       ),
                     ),
                     IconButton(
-                      icon: Icon(Icons.skip_next),
+                      icon:const Icon(Icons.skip_next),
                       onPressed: () {
                         assetsAudioPlayer.next();
                       },
@@ -116,4 +124,5 @@ class _miniLastState extends State<miniLast> {
       ),
     );
   }
+  
 }

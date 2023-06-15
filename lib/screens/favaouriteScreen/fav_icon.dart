@@ -24,17 +24,17 @@ class _favIconState extends State<favIcon> {
             if (widget.isfav) {
               widget.isfav = false;
              removeFavourite(widget.currentSong);
-             SnackBaaaar(text: 'Removed from favorite', context: context, backgroundColor: Colors.blueGrey);
+             SnackBaaaar(text: 'Removed from favorite', context: context);
             } else {
               widget.isfav=true;
               addFavourat(widget.currentSong);
-              SnackBaaaar(text: 'Added to favourite', context: context, backgroundColor: Colors.blueGrey);
+              SnackBaaaar(text: 'Added to favourite', context: context,);
             }
           },
         );
       },
       child: (widget.isfav)
-          ? Icon(Icons.favorite_sharp)
+          ? Icon(Icons.favorite_sharp,color: Colors.purple,)
           : Icon(Icons.favorite_border),
     );
   }

@@ -4,7 +4,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:moon_walker/database/Allsongs/model/allSongModel.dart';
 import 'package:moon_walker/database/Favourite/model/model.dart';
 import 'package:moon_walker/database/play_lists/model/play_list_model.dart';
-import 'package:moon_walker/screens/splash_screen.dart';
+import 'package:moon_walker/splashScreen/splash_screen.dart';
 import 'package:moon_walker/screens/dark_mode/theme.dart';
 import 'package:provider/provider.dart';
 
@@ -18,7 +18,7 @@ Future<void> main(List<String> args) async {
     Hive.registerAdapter(playListClassAdapter());
   }
   if(!Hive.isAdapterRegistered(FavmodelAdapter().typeId)){
-    Hive.registerAdapter(FavmodelAdapter(),);
+    Hive.registerAdapter(FavmodelAdapter());
   }
   
   runApp(
@@ -45,7 +45,7 @@ class MyApp extends StatelessWidget {
           ? ThemeMode.light
           : ThemeMode.dark,
       debugShowCheckedModeBanner: false,
-      home: SplashScreen(),
+      home: const SplashScreen(),
     );
   }
 }

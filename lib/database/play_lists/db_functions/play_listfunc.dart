@@ -10,6 +10,8 @@ Future playlistCreating(playlistName) async {
   playListNotifier.value.insert(0, EachPlayList(name: playlistName),);
   Box<playListClass> playlistdb = await Hive.openBox('playlist');
   playlistdb.add(playListClass(playListName: playlistName),);
+    playListNotifier.notifyListeners();
+  playlistBodyNotifier.notifyListeners();
 }
 
 

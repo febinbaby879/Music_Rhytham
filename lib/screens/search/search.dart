@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:moon_walker/database/Allsongs/model/allSongModel.dart';
+import 'package:moon_walker/database/Favourite/functions/fav_func.dart';
 import 'package:moon_walker/screens/commen_widgets/listtile_customwidgets.dart';
+import 'package:moon_walker/screens/contatants/const.dart';
 import 'package:moon_walker/screens/favaouriteScreen/fav_icon.dart';
-import 'package:moon_walker/screens/favaouriteScreen/favouriteScreen.dart';
 import 'package:moon_walker/screens/fetchPermission/convert_audio.dart';
 import 'package:moon_walker/screens/fetchPermission/fetch_songs.dart';
 import 'package:moon_walker/screens/now_mini/mini_laast.dart';
 import 'package:moon_walker/screens/playlist/add.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
-ValueNotifier<List<Songs>> data = ValueNotifier([]);
+ValueNotifier<List<Songs>> searchdata = ValueNotifier([]);
 
 class searchScreen extends StatefulWidget {
   const searchScreen({super.key});
@@ -24,14 +25,29 @@ final TextEditingController _searchControllor = TextEditingController();
 class _searchScreenState extends State<searchScreen> {
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: Column(
+    return Scaffold(
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+              image: AssetImage(musicImages.instance.scaffBackImg),
+              fit: BoxFit.cover,
+              opacity: 240),
+          gradient: LinearGradient(
+              colors: ScafBack,
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter),
+        ),
+        child: Column(
           children: [
             Padding(
               padding: const EdgeInsets.only(
-              left: 15, right: 15, top: 23, bottom: 20),
+                left: 15,
+                right: 15,
+                top: 40,
+                bottom: 20,
+              ),
               child: TextFormField(
+                enableInteractiveSelection: true,
                 onChanged: (value) => search(value),
                 controller: _searchControllor,
                 autofocus: true,
@@ -53,12 +69,12 @@ class _searchScreenState extends State<searchScreen> {
               ),
             ),
             ValueListenableBuilder(
-              valueListenable: data,
+              valueListenable: searchdata,
               builder: (context, value, child) => Expanded(
                 child: _searchControllor.text.isEmpty ||
                         _searchControllor.text.trim().isEmpty
                     ? searchFunc(context)
-                    : data.value.isEmpty
+                    : searchdata.value.isEmpty
                         ? searchEmpty()
                         : searchfound(context),
               ),
@@ -69,100 +85,117 @@ class _searchScreenState extends State<searchScreen> {
     );
   }
 
- clearText(context) {
+  clearText(context) {
     if (_searchControllor.text.isNotEmpty) {
       _searchControllor.clear();
-      data.notifyListeners();
+      searchdata.notifyListeners();
     } else {
       Navigator.of(context).pop();
     }
   }
 
- searchfound(BuildContext ctx2) {
-    return ListView.builder(
-      physics: const BouncingScrollPhysics(),
-      itemBuilder: (context, index) => Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: InkWell(
-          onTap: () {
-            AudioConvert(data.value, index);
-
-            showBottomSheet(
+  searchfound(BuildContext ctx2) {
+    return Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: ScafBack,
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+        ),
+        borderRadius: BorderRadius.circular(12),
+        image: DecorationImage(
+          image: AssetImage(musicImages.instance.scaffBackImg),
+          fit: BoxFit.cover,
+          opacity: 230,
+        ),
+      ),
+      child: ListView.builder(
+        physics: const BouncingScrollPhysics(),
+        itemBuilder: (context, index) => Padding(
+          padding: const EdgeInsets.all(.0),
+          child: InkWell(
+            onTap: () {
+              AudioConvert(searchdata.value, index);
+              showBottomSheet(
+                  context: context,
+                  builder: (context) {
+                    return miniLast();
+                  });
+            },
+            child: Card(
+              child: listTileWidget(
+                index: index,
                 context: context,
-                builder: (context) {
-                  return miniLast();
-                });
-          },
-          child: Card(
-            child: listTileWidget(
-              index: index,
-              context: context,
-              title: Text(
-                data.value[index].songname!,
-                overflow: TextOverflow.ellipsis,
-              ),
-              subtitle: Text(
-                '${data.value[index].artist}',
-              ),
-              leading: QueryArtworkWidget(
-                id: data.value[index].id!,
-                type: ArtworkType.AUDIO,
-                nullArtworkWidget: ClipRRect(
-                  borderRadius: BorderRadius.circular(25),
-                  child: Image.asset(
-                    'assets/images/musizz.jpg',
-                    fit: BoxFit.cover,
+                title: Text(
+                  searchdata.value[index].songname!,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                subtitle: Text(
+                  '${searchdata.value[index].artist}',
+                ),
+                leading: QueryArtworkWidget(
+                  id: searchdata.value[index].id!,
+                  type: ArtworkType.AUDIO,
+                  nullArtworkWidget: ClipRRect(
+                    borderRadius: BorderRadius.circular(25),
+                    child: Image.asset(
+                      musicImages.instance.queryImage,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
-              ),
-              trailing1: favIcon(
-                currentSong: data.value[index],
-                isfav: favarotList.value.contains(data.value[index]),
-              ),
-              trailing2: PopupMenuButton(
+                trailing1: favIcon(
+                  currentSong: searchdata.value[index],
+                  isfav: favarotList.value.contains(searchdata.value[index]),
+                ),
+                trailing2: PopupMenuButton(
                   icon: const FaIcon(
                     FontAwesomeIcons.ellipsisVertical,
                   ),
                   itemBuilder: (context) => [
-                        PopupMenuItem(
-                          value: 1,
-                          child: InkWell(
-                            onTap: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (ctx) => AddToPlaylist(
-                                  addToPlaylistSong: data.value[index]),
-                                ),
-                              );
-                            },
-                            child: const Text(
-                              'ADD TO PLAYLIST',
+                    PopupMenuItem(
+                      value: 1,
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (ctx) => AddToPlaylist(
+                                  addToPlaylistSong: searchdata.value[index]),
                             ),
-                          ),
+                          );
+                        },
+                        child: const Text(
+                          'ADD TO PLAYLIST',
                         ),
-                      ]),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ),
           ),
         ),
+        itemCount: searchdata.value.length,
       ),
-      itemCount: data.value.length,
     );
   }
 
- searchFunc(BuildContext context) {
+  searchFunc(BuildContext context) {
     return ListView.builder(
       physics: const BouncingScrollPhysics(),
-      padding: EdgeInsets.only(bottom: MediaQuery.of(context).size.height * 0.1),
+      padding:
+          EdgeInsets.only(bottom: MediaQuery.of(context).size.height * 0.1),
       itemBuilder: (context, index) => Padding(
         padding: const EdgeInsets.all(8.0),
         child: InkWell(
           onTap: () {
             AudioConvert(allSongs, index);
             showBottomSheet(
-                context: context,
-                builder: (context) {
-                  return miniLast();
-                });
+              context: context,
+              builder: (context) {
+                return miniLast();
+              },
+            );
           },
           child: Card(
             child: listTileWidget(
@@ -188,7 +221,7 @@ class _searchScreenState extends State<searchScreen> {
                     type: ArtworkType.AUDIO,
                     nullArtworkWidget: ClipOval(
                       child: Image.asset(
-                        'assets/images/musizz.jpg',
+                        musicImages.instance.queryImage,
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -221,12 +254,12 @@ class _searchScreenState extends State<searchScreen> {
                         children: [
                           const Icon(Icons.playlist_add),
                           const Text(
-                            'ADD TO PLAYLIST',
+                            'Add to playlist',
                           ),
                         ],
                       ),
                     ),
-                  )
+                  ),
                 ],
               ),
             ),
@@ -248,7 +281,7 @@ class _searchScreenState extends State<searchScreen> {
   }
 
   search(String searchtext) {
-    data.value = allSongs
+    searchdata.value = allSongs
         .where((element) => element.songname!
             .toLowerCase()
             .contains(searchtext.toLowerCase().trim()))

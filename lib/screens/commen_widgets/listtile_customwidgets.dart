@@ -31,7 +31,7 @@ class listTileWidget extends StatelessWidget {
                   end: Alignment.bottomCenter,
                   colors: [
                     Color(0xFFD89B),
-                    Color.fromARGB(255, 215, 249, 176),
+                    Color(0xBFA9E0),
                   ],
                 ),
         ),

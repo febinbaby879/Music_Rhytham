@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:moon_walker/screens/commen_widgets/newPLay_list.dart';
-import 'package:moon_walker/screens/const.dart';
+import 'package:moon_walker/screens/contatants/const.dart';
 import 'package:moon_walker/screens/playlist/add.dart';
 import 'package:moon_walker/screens/playlist/playListUnique.dart';
 import 'package:moon_walker/screens/playlist/play_list_class.dart';
@@ -15,6 +14,8 @@ class playList extends StatefulWidget {
   State<playList> createState() => _playListState();
 }
 
+//PlayList rename
+TextEditingController playlistControllor = TextEditingController();
 // ----playlistBodyNotifier for rebuilding the playlist body
 ValueNotifier playlistBodyNotifier = ValueNotifier([]);
 // ----playlistNotifier for  creating playlist objects and its contain the playlist name and container
@@ -24,38 +25,55 @@ class _playListState extends State<playList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBar(context),
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Container(
-            child: Column(
-              children: [
-                Expanded(
-                  child: ValueListenableBuilder(
-                    valueListenable: playlistBodyNotifier,
-                    builder: (context, value, child) =>
-                        (playListNotifier.value.isEmpty)
-                            ? emptyPlaylist()
-                            : playListView(),
+      extendBodyBehindAppBar: true,
+      appBar: AppBar(
+        leading: InkWell(
+          onTap: () => Navigator.of(context).pop(),
+          child: const Center(
+            child: FaIcon(
+              FontAwesomeIcons.angleLeft,
+            ),
+          ),
+        ),
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        title: Text(
+          'Play list',
+          style: TextStyle(fontFamily: 'Roboto'),
+        ),
+        actions: [
+          IconButton(
+              onPressed: () {
+                createNewplaylist(context);
+              },
+              icon: Icon(Icons.add))
+        ],
+      ),
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(image: AssetImage(musicImages.instance.scaffBackImg),fit: BoxFit.cover,opacity: 230),
+          gradient: LinearGradient(
+              colors: ScafBack,
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter),
+        ),
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Container(
+              child: Column(
+                children: [
+                  Expanded(
+                    child: ValueListenableBuilder(
+                      valueListenable: playlistBodyNotifier,
+                      builder: (context, value, _) =>
+                          (playListNotifier.value.isEmpty)
+                              ? emptyPlaylist()
+                              : playListView(),
+                    ),
                   ),
-                ),
-                //playlistBodyNotifier.notifyListeners(),
-                Container(
-                  width: double.infinity,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      ElevatedButton(
-                        onPressed: () {
-                          createNewplaylist(context);
-                        },
-                        child: Text('New playlist'),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
@@ -72,14 +90,16 @@ class _playListState extends State<playList> {
   ValueListenableBuilder<dynamic> playListView() {
     return ValueListenableBuilder(
       valueListenable: playlistBodyNotifier,
-      builder: (context, value, child) => (ListView.separated(
+      builder: (context, value, _) => (ListView.separated(
           itemBuilder: (context, i) {
             return InkWell(
               onTap: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                      builder: (context) =>
-                          playListUnique(playList: playListNotifier.value[i])),
+                    builder: (context) => playListUnique(ind: i,
+                      playList: playListNotifier.value[i],
+                    ),
+                  ),
                 );
               },
               child: Card(
@@ -95,9 +115,9 @@ class _playListState extends State<playList> {
                     ),
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  height: 85,
+                  height: 70,
                   child: Padding(
-                    padding: const EdgeInsets.only(left: 5.0, top: 15),
+                    padding: const EdgeInsets.only(top: 7),
                     child: ListTile(
                       leading: Container(
                         width: 50,
@@ -105,7 +125,7 @@ class _playListState extends State<playList> {
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(12),
                           image: DecorationImage(
-                              image: AssetImage('assets/images/img2.jpg'),
+                              image: AssetImage(musicImages.instance.playListImg),
                               fit: BoxFit.cover),
                         ),
                       ),
@@ -162,32 +182,11 @@ class _playListState extends State<playList> {
     );
   }
 
-  AppBar appBar(BuildContext context) {
-    return AppBar(
-      title: Text(
-        'PLAY LISTS',
-        style: GoogleFonts.kavoon(fontSize: 21),
-      ),
-      centerTitle: true,
-      automaticallyImplyLeading: false,
-      leading: InkWell(
-        onTap: () => Navigator.of(context).pop(),
-        child: const Center(
-          child: FaIcon(
-            FontAwesomeIcons.angleLeft,
-          ),
-        ),
-      ),
-    );
-  }
-
-
   deleteConfrimDilog(BuildContext context, int i) {
     showDialog(
         context: context,
         builder: (context) {
           return AlertDialog(
-            //title: Text('Are you sure'),
             content: Text('ARE YOU SURE'),
             actions: [
               ElevatedButton(

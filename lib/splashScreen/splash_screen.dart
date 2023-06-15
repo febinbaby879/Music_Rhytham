@@ -1,7 +1,8 @@
 
 import 'package:flutter/material.dart';
+import 'package:moon_walker/database/Recent/recentDB/recentdb.dart';
 import 'package:moon_walker/screens/fetchPermission/fetch_songs.dart';
-import 'package:moon_walker/widgets/bottomNavigationBar.dart';
+import 'package:moon_walker/splashScreen/ImageScreen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -58,9 +59,9 @@ class _SplashScreenState extends State<SplashScreen> {
     await Future.delayed(Duration(seconds: 2));
     hasStoragePermission = await CheckPermission.checkAndRequestPermissions();
     if (hasStoragePermission) {
-     // await FetchSongs();
       await songfetch();
-      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>musicAppBottomNav()));
+     // await recentfetch();
+      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>firstStar(),));
     }
   }
 }

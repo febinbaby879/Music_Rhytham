@@ -1,7 +1,9 @@
 import 'package:moon_walker/database/Allsongs/model/allSongModel.dart';
 import 'package:moon_walker/database/Favourite/functions/fav_func.dart';
+import 'package:moon_walker/database/Recent/recentDB/recentdb.dart';
+import 'package:moon_walker/database/most/mostlyplayed.dart';
 import 'package:moon_walker/database/play_lists/db_functions/play_listfunc.dart';
-import 'package:moon_walker/screens/const.dart';
+import 'package:moon_walker/screens/contatants/const.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
 class CheckPermission {
@@ -33,10 +35,9 @@ songfetch() async {
       );
     }
   }
-  print(allSongs.length);
-  //}
   await getFAvourite();
-  //await recentfetch();
-  //await playlistfetch();
   await getplayList();
+  await mostplayedfetch();
+  //await mostplayFetch();
+ await recentfetch();
 }

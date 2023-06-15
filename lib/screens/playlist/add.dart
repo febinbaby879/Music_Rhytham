@@ -1,12 +1,10 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:moon_walker/database/Allsongs/model/allSongModel.dart';
 import 'package:moon_walker/database/play_lists/db_functions/play_listfunc.dart';
 import 'package:moon_walker/screens/commen_widgets/newPLay_list.dart';
 import 'package:moon_walker/screens/commen_widgets/snackbar.dart';
-import 'package:moon_walker/screens/const.dart';
+import 'package:moon_walker/screens/contatants/const.dart';
 import 'package:moon_walker/screens/playlist/play_list.dart';
-import 'package:moon_walker/screens/playlist/play_list_class.dart';
 
 class AddToPlaylist extends StatefulWidget {
   final Songs addToPlaylistSong;
@@ -18,22 +16,19 @@ class AddToPlaylist extends StatefulWidget {
 
 //Form State control key
 final playListCreateFormKey = GlobalKey<FormState>();
-//Text access
-TextEditingController playlistControllor = TextEditingController();
-ValueNotifier<List<EachPlayList>> playlistSearchNotifier = ValueNotifier([]);
+//Text access rename playList
+//ValueNotifier<List<EachPlayList>> playListNotifier = ValueNotifier([]);
+//Serach playlist
 TextEditingController _playlistSearchControllor = TextEditingController();
 
 class _AddToPlaylistState extends State<AddToPlaylist> {
   double screenWidth = 0;
-
-  bool startAnimation = false;
-
   @override
   Widget build(BuildContext context) {
     screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           'ADD TO PLAYLIST',
           style: TextStyle(fontFamily: 'Roboto'),
         ),
@@ -43,63 +38,70 @@ class _AddToPlaylistState extends State<AddToPlaylist> {
             onPressed: () {
               createNewplaylist(context);
             },
-            icon: Icon(Icons.add),
+            icon: const Icon(Icons.add),
           ),
         ],
       ),
-      body: Column(
-        children: [
-          SizedBox(
-            height: 90,
-            child: Column(
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+              image: AssetImage(musicImages.instance.scaffBackImg),
+              fit: BoxFit.cover,
+              opacity: 190),
+          gradient: LinearGradient(
+              colors: ScafBack,
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter),
+        ),
+        child: Column(
+          children: [
+            Column(
               children: [
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.all(15),
-                    child: TextField(
-                      onChanged: (value) => search(value),
-                      controller: _playlistSearchControllor,
-                      decoration: InputDecoration(
-                        icon: Icon(Icons.search),
-                        hintText: 'Find Playlist',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
+                Padding(
+                  padding: const EdgeInsets.all(15),
+                  child: TextField(
+                    onChanged: (value) => search(value),
+                    controller: _playlistSearchControllor,
+                    decoration: InputDecoration(
+                      icon: const Icon(Icons.search),
+                      hintText: 'Find Playlist',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
                       ),
                     ),
                   ),
                 ),
               ],
             ),
-          ),
-          (playListNotifier.value.isEmpty)
-              ? const Expanded(
-                  child: Center(
-                    child: Text(
-                      'Create New Playlist',
+            (playListNotifier.value.isEmpty)
+                ? const Expanded(
+                    child: Center(
+                      child: Text(
+                        'Create New Playlist',
+                      ),
+                    ),
+                  )
+                : Expanded(
+                    child: ValueListenableBuilder(
+                      valueListenable: playListNotifier,
+                      builder: (context, value, child) =>
+                          _playlistSearchControllor.text.isEmpty ||
+                                  _playlistSearchControllor.text.trim().isEmpty
+                              ? selecPlayListAdding(
+                                  context, widget.addToPlaylistSong)
+                              : playListNotifier.value.isEmpty
+                                  ? connotFindPlayList()
+                                  : searchFindAfterAdding(
+                                      context, widget.addToPlaylistSong),
                     ),
                   ),
-                )
-              : Expanded(
-                  child: ValueListenableBuilder(
-                    valueListenable: playlistSearchNotifier,
-                    builder: (context, value, child) =>
-                        _playlistSearchControllor.text.isEmpty ||
-                                _playlistSearchControllor.text.trim().isEmpty
-                            ? searchFunctionplaylist(
-                                context, widget.addToPlaylistSong)
-                            : playlistSearchNotifier.value.isEmpty
-                                ? searchEmptyPlaylist()
-                                : searchFoundcplaylist(
-                                    context, widget.addToPlaylistSong),
-                  ),
-                ),
-        ],
+          ],
+        ),
       ),
     );
   }
 
-  Widget searchEmptyPlaylist() {
+  Widget connotFindPlayList() {
     return const SizedBox(
       child: Center(
         child: Text(
@@ -110,16 +112,18 @@ class _AddToPlaylistState extends State<AddToPlaylist> {
   }
 
   search(String searchtext) {
-    playlistSearchNotifier.value = playListNotifier.value
-        .where((element) => element.name
-            .toLowerCase()
-            .contains(searchtext.toLowerCase().trim()))
+    playListNotifier.value = playListNotifier.value
+        .where(
+          (element) => element.name.toLowerCase().contains(
+                searchtext.toLowerCase().trim(),
+              ),
+        )
         .toList();
   }
 
-
-  Widget searchFunctionplaylist(BuildContext context, Songs addToPlaylistSong) {
-    return ListView.separated(
+  Widget selecPlayListAdding(BuildContext context, Songs addToPlaylistSong) {
+    return ListView.builder(
+      physics: const BouncingScrollPhysics(),
       shrinkWrap: true,
       itemBuilder: (context, index) {
         return InkWell(
@@ -127,24 +131,59 @@ class _AddToPlaylistState extends State<AddToPlaylist> {
             if (playListNotifier.value[index].Container
                 .contains(widget.addToPlaylistSong)) {
               SnackBaaaar(
-                  text: 'Song is already exist',
-                  context: context,
-                  backgroundColor: Colors.blueGrey);
+                text: 'Song is already exist',
+                context: context,
+              );
             } else {
               playListNotifier.value[index].Container
                   .add(widget.addToPlaylistSong);
               playlistAddDB(
                   widget.addToPlaylistSong, playListNotifier.value[index].name);
               SnackBaaaar(
-                  text: 'Song added',
-                  context: context,
-                  backgroundColor: Colors.blueGrey);
-            }
-
-            Timer(const Duration(milliseconds: 900), () {
-              playlistBodyNotifier.notifyListeners();
+                text: 'Song added',
+                context: context,
+              );
               Navigator.of(context).pop();
-            });
+            }
+          },
+          child: Padding(
+            padding: const EdgeInsets.only(left: 20.0, right: 20),
+            child: PlaylistSearchTile(
+              title: playListNotifier.value[index].name,
+              context: context,
+              index: index,
+            ),
+          ),
+        );
+      },
+      itemCount: playListNotifier.value.length,
+    );
+  }
+
+  Widget searchFindAfterAdding(BuildContext context, Songs addToPlaylistSong) {
+    return ListView.builder(
+      physics: const BouncingScrollPhysics(),
+      shrinkWrap: true,
+      itemBuilder: (context, index) {
+        return InkWell(
+          onTap: () {
+            if (playListNotifier.value[index].Container
+                .contains(widget.addToPlaylistSong)) {
+              SnackBaaaar(
+                text: 'Song is already existing',
+                context: context,
+              );
+            } else {
+              playListNotifier.value[index].Container
+                  .add(widget.addToPlaylistSong);
+              playlistAddDB(widget.addToPlaylistSong,
+                  playListNotifier.value[index].name);
+              SnackBaaaar(
+                text:
+                    'Song added to ${playListNotifier.value[index].name}',
+                context: context,
+              );
+            }
           },
           child: PlaylistSearchTile(
             title: playListNotifier.value[index].name,
@@ -153,48 +192,7 @@ class _AddToPlaylistState extends State<AddToPlaylist> {
           ),
         );
       },
-      separatorBuilder: (context, index) {
-        return const SizedBox();
-      },
       itemCount: playListNotifier.value.length,
-    );
-  }
-
-  Widget searchFoundcplaylist(BuildContext context, Songs addToPlaylistSong) {
-    return ListView.separated(
-      shrinkWrap: true,
-      itemBuilder: (context, index) {
-        return InkWell(
-          onTap: () {
-            if (playlistSearchNotifier.value[index].Container
-                .contains(widget.addToPlaylistSong)) {
-              SnackBaaaar(
-                  text: 'Song is already existing',
-                  context: context,
-                  backgroundColor: Colors.blueGrey);
-            } else {
-              playlistSearchNotifier.value[index].Container
-                  .add(widget.addToPlaylistSong);
-              playlistAddDB(widget.addToPlaylistSong,
-                  playlistSearchNotifier.value[index].name);
-              SnackBaaaar(
-                  text:
-                      'Song added to ${playlistSearchNotifier.value[index].name}',
-                  context: context,
-                  backgroundColor: Colors.blueGrey);
-            }
-          },
-          child: PlaylistSearchTile(
-            title: playlistSearchNotifier.value[index].name,
-            context: context,
-            index: index,
-          ),
-        );
-      },
-      separatorBuilder: (context, index) {
-        return const SizedBox();
-      },
-      itemCount: playlistSearchNotifier.value.length,
     );
   }
 }
@@ -219,7 +217,6 @@ class PlaylistSearchTile extends StatelessWidget {
           borderRadius: BorderRadius.circular(12),
         ),
         child: Container(
-          width: MediaQuery.of(context).size.width * 0.5,
           decoration: BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.topLeft,
@@ -228,36 +225,22 @@ class PlaylistSearchTile extends StatelessWidget {
             ),
             borderRadius: BorderRadius.circular(12),
           ),
-          height: 85,
-          child: Row(
-            children: [
-              const Spacer(
-                flex: 1,
-              ),
-              Container(
-                height: 70,
-                width: 80,
+          height: 70,
+          child: Padding(
+            padding: const EdgeInsets.only(top: 7),
+            child: ListTile(
+              leading: Container(
+                width: 50,
+                height: 50,
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(8),
-                  child: Image.asset(
-                    'assets/images/img2.jpg',
-                    fit: BoxFit.cover,
+                  image: DecorationImage(
+                    image: AssetImage(musicImages.instance.playListImg),
                   ),
+                  borderRadius: BorderRadius.circular(12),
                 ),
               ),
-              const Spacer(
-                flex: 1,
-              ),
-              Text(
-                title,
-              ),
-              const Spacer(
-                flex: 6,
-              ),
-            ],
+              title: Text(title),
+            ),
           ),
         ),
       ),
