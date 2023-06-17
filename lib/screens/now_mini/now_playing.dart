@@ -14,8 +14,9 @@ class nowPlaying extends StatefulWidget {
 
 class _nowPlayingState extends State<nowPlaying> {
   bool isShuffleEnabled = false;
-  bool isRepeatenabled=false;
-  bool isfav=false;
+  bool isRepeatenabled = false;
+  bool isfav = false;
+
   double volume = 0.3;
   void setVolume(double value) {
     setState(() {
@@ -23,6 +24,11 @@ class _nowPlayingState extends State<nowPlaying> {
     });
     assetsAudioPlayer.setVolume(value);
   }
+
+  void enableRepeat() {
+  assetsAudioPlayer.setLoopMode(LoopMode.single);
+}
+
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +44,7 @@ class _nowPlayingState extends State<nowPlaying> {
         leading: Padding(
           padding: const EdgeInsets.only(top: 13.0, left: 20),
           child: InkWell(
-            child: FaIcon(FontAwesomeIcons.angleLeft),
+            child: const FaIcon(FontAwesomeIcons.angleLeft),
             onTap: () {
               Navigator.of(context).pop();
             },
@@ -48,20 +54,20 @@ class _nowPlayingState extends State<nowPlaying> {
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage(musicImages.instance.scaffBackImg),
-            fit: BoxFit.cover,
-            opacity: 230),
-        gradient: LinearGradient(
-            colors: ScafBack,
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter),
-      ),
+              image: AssetImage(musicImages.instance.scaffBackImg),
+              fit: BoxFit.cover,
+              opacity: 230),
+          gradient: LinearGradient(
+              colors: ScafBack,
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter),
+        ),
         child: SafeArea(
           child: Column(
             children: [
               assetsAudioPlayer.builderCurrent(
                 builder: (context, playing) {
-                 int id= int.parse(playing.audio.audio.metas.id!);
+                  int id = int.parse(playing.audio.audio.metas.id!);
                   return Container(
                     width: MediaQuery.of(context).size.width,
                     child: Column(
@@ -69,7 +75,7 @@ class _nowPlayingState extends State<nowPlaying> {
                         Container(
                           width: MediaQuery.of(context).size.width,
                           height: MediaQuery.of(context).size.height * .45,
-                          decoration: BoxDecoration(),
+                          decoration: const BoxDecoration(),
                           child: ClipOval(
                             child: QueryArtworkWidget(
                               id: id,
@@ -85,19 +91,20 @@ class _nowPlayingState extends State<nowPlaying> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
+                             const Icon(Icons.volume_down_sharp),
                               SliderTheme(
                                 data: SliderTheme.of(context).copyWith(
                                   trackHeight:
                                       1.0, // Adjust the height of the slider track
-                                  thumbShape: RoundSliderThumbShape(
+                                  thumbShape: const RoundSliderThumbShape(
                                       enabledThumbRadius:
                                           7.0), // Adjust the size of the thumb
-                                  activeTrackColor: Colors
-                                      .deepPurple[300], // Set the color of the active track
-                                  inactiveTrackColor: Colors
-                                      .deepPurple[100], // Set the color of the inactive track
-                                  thumbColor:
-                                      Colors.deepPurpleAccent, // Set the color of the thumb
+                                  activeTrackColor: Colors.deepPurple[
+                                      300], // Set the color of the active track
+                                  inactiveTrackColor: Colors.deepPurple[
+                                      200], // Set the color of the inactive track
+                                  thumbColor: Colors
+                                      .deepPurpleAccent, // Set the color of the thumb
                                 ),
                                 child: Slider(
                                   value: volume,
@@ -110,11 +117,11 @@ class _nowPlayingState extends State<nowPlaying> {
                             ],
                           ),
                         ),
-                         SizedBox(
+                        SizedBox(
                           height: MediaQuery.of(context).size.height * .02,
                         ),
                         Center(
-                          child: Container(
+                          child: SizedBox(
                             child: Column(
                               children: [
                                 Text(
@@ -122,7 +129,8 @@ class _nowPlayingState extends State<nowPlaying> {
                                   overflow: TextOverflow.ellipsis,
                                 ),
                                 SizedBox(
-                                  height: MediaQuery.of(context).size.height * .01,
+                                  height:
+                                      MediaQuery.of(context).size.height * .01,
                                 ),
                                 Text(assetsAudioPlayer.getCurrentAudioArtist),
                               ],
@@ -137,14 +145,15 @@ class _nowPlayingState extends State<nowPlaying> {
                           child: PlayerBuilder.currentPosition(
                               player: assetsAudioPlayer,
                               builder: (context, duration) {
-                                final totalDuration =
-                                assetsAudioPlayer.current.value?.audio.duration;
+                                final totalDuration = assetsAudioPlayer
+                                    .current.value?.audio.duration;
                                 return ProgressBar(
                                   progress: duration,
                                   total: totalDuration!,
-                                  progressBarColor: Colors.deepPurple[300],
-                                  baseBarColor: Colors.deepPurple[100],
-                                  bufferedBarColor: Colors.blue.withOpacity(0.24),
+                                  progressBarColor: Colors.deepPurple[400],
+                                  baseBarColor: Colors.deepPurple[200],
+                                  bufferedBarColor:
+                                      Colors.blue.withOpacity(0.24),
                                   thumbColor: Colors.deepPurpleAccent,
                                   barHeight: 3.0,
                                   thumbRadius: 7.0,
@@ -158,56 +167,64 @@ class _nowPlayingState extends State<nowPlaying> {
                           height: MediaQuery.of(context).size.height * .02,
                         ),
                         Container(
-                          alignment: Alignment.center,
+                          height: 40,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            gradient: LinearGradient(
+                              colors: miniplayerColor,
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                            ),
+                          ),
+                          width: 150,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
                               IconButton(
+                                tooltip: 'Shuffle',
                                 onPressed: () {
-                                  assetsAudioPlayer.previous();
-                                },
-                                icon: Icon(FontAwesomeIcons.backward,color: Colors.deepPurple[400],),
-                              ),
-                              IconButton(
-                                onPressed: () {
-                                  skipBackward(Duration(seconds: 10));
+                                  assetsAudioPlayer.toggleShuffle();
+                                  setState(() {
+                                    isShuffleEnabled = !isShuffleEnabled;
+                                    
+                                  });
                                 },
                                 icon: Icon(
-                                  Icons.replay_10,size: 30,color: Colors.deepPurple[300]
+                                  isShuffleEnabled
+                                      ? Icons.shuffle_on_sharp
+                                      : Icons.shuffle,
+                                  color: Colors.deepPurpleAccent,
                                 ),
                               ),
-                              InkWell(
-                                onTap: () {
-                                  assetsAudioPlayer.playOrPause();
+                              IconButton(
+                                tooltip: 'Favaurite',
+                                onPressed: () {
+                                  setState(() {
+                                    isfav = !isfav;
+                                  });
                                 },
-                                child: PlayerBuilder.isPlaying(
-                                    player: assetsAudioPlayer,
-                                    builder: (context, isPlaying) {
-                                      if (isPlaying) {
-                                        return Icon(
-                                          Icons.pause,
-                                          size: 38,
-                                          color: Colors.deepPurple,
-                                        );
-                                      } else {
-                                        return Icon(
-                                          Icons.play_arrow,color: Colors.deepPurple[400],
-                                          size: 38,
-                                        );
-                                      }
-                                    }),
+                                icon: Icon(
+                                  isfav
+                                      ? Icons.favorite_sharp
+                                      : Icons.favorite_border_sharp,
+                                  color: Colors.deepPurpleAccent,
+                                ),
                               ),
                               IconButton(
+                                tooltip: 'Repeat',
                                 onPressed: () {
-                                  skipForward(Duration(seconds: 10));
+                                  enableRepeat();
+                                  setState(() {
+                                    isRepeatenabled = !isRepeatenabled;
+                                    
+                                  });
                                 },
-                                icon: Icon(Icons.forward_10,size: 30,color: Colors.deepPurple[300],),
-                              ),
-                              IconButton(
-                                onPressed: () {
-                                  assetsAudioPlayer.next();
-                                },
-                                icon: Icon(FontAwesomeIcons.forward,color: Colors.deepPurple[400]),
+                                icon: Icon(
+                                  isRepeatenabled
+                                      ? Icons.repeat_on
+                                      : Icons.repeat,
+                                  color: Colors.deepPurpleAccent,
+                                ),
                               ),
                             ],
                           ),
@@ -216,54 +233,94 @@ class _nowPlayingState extends State<nowPlaying> {
                           height: MediaQuery.of(context).size.height * .03,
                         ),
                         Container(
-                          width: 150,
+                          height: 55,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(21),
+                            gradient: LinearGradient(
+                              colors: miniplayerColor,
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                            ),
+                          ),
+                          alignment: Alignment.center,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
                               IconButton(
-                                tooltip: 'Shuffle',
                                 onPressed: () {
-                                 setState(() {
-                                  isShuffleEnabled=!isShuffleEnabled;
-                                   assetsAudioPlayer.toggleShuffle();
-                                 });
-                                },
-                                icon: Icon(isShuffleEnabled? Icons.shuffle_on_sharp:Icons.shuffle,color: Colors.deepPurpleAccent,),
-                              ),
-                              IconButton(
-                                tooltip: 'Favaurite',
-                                onPressed: () {
-                                  setState(() {
-                                    isfav=!isfav;
-                                  });
-                                },
-                                icon: Icon(isfav?Icons.favorite_sharp:Icons.favorite_border_sharp,color: Colors.deepPurpleAccent),
-                              ),
-                              IconButton(
-                                tooltip: 'Repeat',
-                                onPressed: () {
-                                  setState(() {
-                                    isRepeatenabled=!isRepeatenabled;
-                                  });
+                                  assetsAudioPlayer.previous();
                                 },
                                 icon: Icon(
-                                  isRepeatenabled?Icons.repeat_on:Icons.repeat,color: Colors.deepPurpleAccent
+                                  FontAwesomeIcons.backward,
+                                  color: Colors.deepPurple[400],
                                 ),
+                              ),
+                              IconButton(
+                                onPressed: () {
+                                  skipBackward(const Duration(seconds: 10));
+                                },
+                                icon: Icon(Icons.replay_10,
+                                    size: 30, color: Colors.deepPurple[300]),
+                              ),
+                              InkWell(
+                                onTap: () {
+                                  assetsAudioPlayer.playOrPause();
+                                },
+                                child: SizedBox(
+                                  child: PlayerBuilder.isPlaying(
+                                    player: assetsAudioPlayer,
+                                    builder: (context, isPlaying) {
+                                      if (isPlaying) {
+                                        return const Icon(
+                                          Icons.pause,
+                                          size: 38,
+                                          color: Colors.deepPurple,
+                                        );
+                                      } else {
+                                        return Icon(
+                                          Icons.play_arrow,
+                                          color: Colors.deepPurple[400],
+                                          size: 38,
+                                        );
+                                      }
+                                    },
+                                  ),
+                                ),
+                              ),
+                              IconButton(
+                                onPressed: () {
+                                  skipForward(const Duration(seconds: 10));
+                                },
+                                icon: Icon(
+                                  Icons.forward_10,
+                                  size: 30,
+                                  color: Colors.deepPurple[300],
+                                ),
+                              ),
+                              IconButton(
+                                onPressed: () {
+                                  assetsAudioPlayer.next();
+                                },
+                                icon: Icon(FontAwesomeIcons.forward,
+                                    color: Colors.deepPurple[400]),
                               ),
                             ],
                           ),
+                        ),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * .03,
                         ),
                       ],
                     ),
                   );
                 },
               ),
-              Container(
+              SizedBox(
                 width: MediaQuery.of(context).size.height,
-              )
+              ),
             ],
           ),
-        ),  
+        ),
       ),
     );
   }

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:moon_walker/database/Allsongs/model/allSongModel.dart';
 import 'package:moon_walker/database/Favourite/functions/fav_func.dart';
-import 'package:moon_walker/screens/commen_widgets/snackbar.dart';
+import 'package:moon_walker/widgets/snackbar.dart';
 
 
 
 class favIcon extends StatefulWidget {
   Songs currentSong;
-  bool isfav=true;
+  bool isfav;
   favIcon({super.key, required this.currentSong, required this.isfav});
 
   @override

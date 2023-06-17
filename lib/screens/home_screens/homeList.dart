@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:moon_walker/database/Allsongs/model/allSongModel.dart';
 import 'package:moon_walker/database/Allsongs/songDbfi_func/song_db_func.dart';
 import 'package:moon_walker/database/Favourite/functions/fav_func.dart';
-import 'package:moon_walker/screens/commen_widgets/listtile_customwidgets.dart';
+import 'package:moon_walker/widgets/listtile_customwidgets.dart';
 import 'package:moon_walker/screens/contatants/const.dart';
 import 'package:moon_walker/screens/favaouriteScreen/fav_icon.dart';
 import 'package:moon_walker/screens/favaouriteScreen/favouriteScreen.dart';
@@ -13,13 +13,12 @@ import 'package:moon_walker/screens/mostplayed/mostplayed.dart';
 import 'package:moon_walker/screens/now_mini/mini_laast.dart';
 import 'package:moon_walker/screens/playlist/add.dart';
 import 'package:moon_walker/screens/playlist/play_list.dart';
-import 'package:moon_walker/screens/recentsongs/recentJUstcheck.dart';
 import 'package:moon_walker/screens/search/search.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 import 'package:shimmer/shimmer.dart';
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({super.key});
+ const MyHomePage({super.key});
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -52,8 +51,8 @@ class _MyHomePageState extends State<MyHomePage> {
                       SizedBox(
                         width: 200.0,
                         child: Shimmer.fromColors(
-                          baseColor: Colors.deepPurple.shade800.withOpacity(.9),
-                          highlightColor: Colors.amber,
+                          baseColor: const Color.fromARGB(255, 64, 0, 255).withOpacity(.9),
+                          highlightColor: Colors.deepOrange,
                           child: Padding(
                             padding: const EdgeInsets.only(top: 8.0),
                             child: Text(
@@ -65,16 +64,16 @@ class _MyHomePageState extends State<MyHomePage> {
                           ),
                         ),
                       ),
-                      Spacer(),
+                     const Spacer(),
                       IconButton(
                         onPressed: () {
                           Navigator.of(context).push(
                             MaterialPageRoute(
-                              builder: (context) => searchScreen(),
+                              builder: (context) =>const searchScreen(),
                             ),
                           );
                         },
-                        icon: Icon(
+                        icon:const Icon(
                           Icons.search,
                         ),
                       ),
@@ -87,7 +86,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 Container(
                   height: 150,
                   child: ListView(
-                    physics: BouncingScrollPhysics(),
+                    physics:const BouncingScrollPhysics(),
                     scrollDirection: Axis.horizontal,
                     children: [
                       InkWell(
@@ -121,7 +120,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                     'Favourites',
                                     style: GoogleFonts.abel(),
                                   )),
-                                  decoration: BoxDecoration(
+                                  decoration:const BoxDecoration(
                                       color: Colors.white,
                                       borderRadius: BorderRadius.only(
                                         bottomLeft: Radius.circular(12),
@@ -135,13 +134,13 @@ class _MyHomePageState extends State<MyHomePage> {
                           ],
                         ),
                       ),
-                      SizedBox(
+                     const SizedBox(
                         width: 20,
                       ),
                       InkWell(
                         onTap: () {
                           Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => playList()));
+                              builder: (context) =>const playList()));
                         },
                         child: Stack(
                           children: [
@@ -162,7 +161,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                   child: Center(
                                       child: Text('Playlists',
                                           style: GoogleFonts.abel())),
-                                  decoration: BoxDecoration(
+                                  decoration:const BoxDecoration(
                                       color: Colors.white,
                                       borderRadius: BorderRadius.only(
                                         bottomLeft: Radius.circular(12),
@@ -176,13 +175,13 @@ class _MyHomePageState extends State<MyHomePage> {
                           ],
                         ),
                       ),
-                      SizedBox(
+                     const SizedBox(
                         width: 20,
                       ),
                       InkWell(
                         onTap: () {
                           Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) =>mostplayed()));
+                              builder: (context) =>const mostplayed()));
                         },
                         child: Stack(
                           children: [
@@ -203,7 +202,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                   child: Center(
                                       child: Text('Mostly Played',
                                           style: GoogleFonts.abel())),
-                                  decoration: BoxDecoration(
+                                  decoration: const BoxDecoration(
                                       color: Colors.white,
                                       borderRadius: BorderRadius.only(
                                         bottomLeft: Radius.circular(12),
@@ -225,7 +224,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 Container(
                   alignment: Alignment.bottomLeft,
-                  child: Text(
+                  child:const Text(
                     "All Songs",
                   ),
                 ),
@@ -256,12 +255,11 @@ class _MyHomePageState extends State<MyHomePage> {
 
   ListView allSongsListview(List<Songs> song) {
     return ListView.separated(
-        physics: BouncingScrollPhysics(),
+        physics:const BouncingScrollPhysics(),
         itemBuilder: ((context, index) {
           return InkWell(
             onTap: () async {
               AudioConvert(allSongs, index);
-              // recentSongsList.add(index);
               showBottomSheet(
                 context: context,
                 builder: ((context) => miniLast()),
@@ -271,7 +269,7 @@ class _MyHomePageState extends State<MyHomePage> {
               index: index,
               context: context,
               leading: QueryArtworkWidget(
-                  nullArtworkWidget: Container(
+                  nullArtworkWidget: SizedBox(
                     width: 50,
                     height: 50,
                     child: ClipOval(
@@ -311,7 +309,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   borderRadius: BorderRadius.circular(12),
                 ),
                 shadowColor: Colors.brown,
-                itemBuilder: (context) => [
+                itemBuilder: (context) => const[
                   PopupMenuItem(
                     value: 0,
                     child: Row(
@@ -328,7 +326,7 @@ class _MyHomePageState extends State<MyHomePage> {
           );
         }),
         separatorBuilder: (context, index) {
-          return SizedBox(
+          return const SizedBox(
             height: 0,
           );
         },
@@ -336,7 +334,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Center songNotFound() {
-    return Center(
+    return const Center(
       child: Text("No songs available"),
     );
   }

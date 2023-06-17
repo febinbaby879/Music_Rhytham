@@ -20,7 +20,7 @@ class musicImages{
 
   static musicImages instance = musicImages();
 
-  final String scaffBackImg="assets/images/images.14.jpeg";
+  final String scaffBackImg="assets/images/abcd.jpg";
   final String favBoxImg="assets/images/hsdbkc.jpeg";
   final String playImg="assets/images/air.webp";
   final String mostBoxImg='assets/images/images.jpeg';

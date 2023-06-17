@@ -26,7 +26,6 @@ AudioConvert(List<Songs> songs, int index) async {
     Playlist(audios: allSongsAudioList, startIndex: index),
     showNotification: notification,
     notificationSettings: const NotificationSettings(stopEnabled: false),
-    
   );
   assetsAudioPlayer.setLoopMode(LoopMode.playlist);
 }

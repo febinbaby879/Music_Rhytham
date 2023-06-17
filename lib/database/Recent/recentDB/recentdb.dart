@@ -1,4 +1,3 @@
-
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
@@ -20,37 +19,45 @@ recentaddDB(Songs song) async {
         recentDb.deleteAt(i);
         recentDb.add(song.id!);
       }
-      //recentList.value.addAll(song.id);
     }
   } else {
     recentList.value.insert(0, song);
     recentDb.add(song.id!);
-    if(recentList.value.length>10){
+    if (recentList.value.length > 10) {
       recentList.value.removeAt(10);
     }
   }
-  
+
   // print(recentDb.length);
   // recentfetch();
   recentList.notifyListeners();
 }
 
+
 recentfetch() async {
-    Box<int> recentDb = await Hive.openBox('recent');
+  Box<int> recentDb = await Hive.openBox('recent');
 
-    // List<Songs> recenttemp = [];
-    for (int element in recentDb.values) {
-      for (Songs song in allSongs) {
-        if (element == song.id) {
-          // recenttemp.add(song);
-    recentList.value.add(song);
-
-          break;
-        }
+  // List<Songs> recenttemp = [];
+  for (int element in recentDb.values) {
+    for (Songs song in allSongs) {
+      if (element == song.id) {
+        // recenttemp.add(song);
+        recentList.value.add(song);
+        break;
       }
     }
-// log(recenttemp.length.toString());
-log("ui list ${recentList.value.length}");
-recentList.notifyListeners();
-    //recentList.value = recenttemp.reversed.toList();
   }
+  log("ui list ${recentList.value.length}");
+  recentList.notifyListeners();
+}
+
+
+Songs? currentlyplaying;
+currentPlayingfinder(int playigid) {
+  for (Songs songs in allSongs) {
+    if (songs.id == playigid) {
+      currentlyplaying = songs;
+    }
+  }
+  recentaddDB(currentlyplaying!);
+}

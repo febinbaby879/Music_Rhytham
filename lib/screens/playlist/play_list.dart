@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:moon_walker/screens/commen_widgets/newPLay_list.dart';
+import 'package:moon_walker/widgets/newPLay_list.dart';
 import 'package:moon_walker/screens/contatants/const.dart';
 import 'package:moon_walker/screens/playlist/add.dart';
 import 'package:moon_walker/screens/playlist/playListUnique.dart';
@@ -19,7 +19,7 @@ TextEditingController playlistControllor = TextEditingController();
 // ----playlistBodyNotifier for rebuilding the playlist body
 ValueNotifier playlistBodyNotifier = ValueNotifier([]);
 // ----playlistNotifier for  creating playlist objects and its contain the playlist name and container
-ValueNotifier<List<EachPlayList>> playListNotifier = ValueNotifier([]);
+ValueNotifier<List<uniqueList>> playListNotifier = ValueNotifier([]);
 
 class _playListState extends State<playList> {
   @override
@@ -43,15 +43,22 @@ class _playListState extends State<playList> {
         ),
         actions: [
           IconButton(
-              onPressed: () {
-                createNewplaylist(context);
-              },
-              icon: Icon(Icons.add))
+            onPressed: () {
+              createNewplaylist(context);
+            },
+            icon: const Icon(
+              Icons.add,
+              color: Colors.black,
+            ),
+          ),
         ],
       ),
       body: Container(
         decoration: BoxDecoration(
-          image: DecorationImage(image: AssetImage(musicImages.instance.scaffBackImg),fit: BoxFit.cover,opacity: 230),
+          image: DecorationImage(
+              image: AssetImage(musicImages.instance.scaffBackImg),
+              fit: BoxFit.cover,
+              opacity: 230),
           gradient: LinearGradient(
               colors: ScafBack,
               begin: Alignment.topCenter,
@@ -96,7 +103,8 @@ class _playListState extends State<playList> {
               onTap: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => playListUnique(ind: i,
+                    builder: (context) => playListUnique(
+                      ind: i,
                       playList: playListNotifier.value[i],
                     ),
                   ),
@@ -125,13 +133,14 @@ class _playListState extends State<playList> {
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(12),
                           image: DecorationImage(
-                              image: AssetImage(musicImages.instance.playListImg),
+                              image:
+                                  AssetImage(musicImages.instance.playListImg),
                               fit: BoxFit.cover),
                         ),
                       ),
                       title: Text(playListNotifier.value[i].name),
                       trailing: PopupMenuButton(
-                        shape: BeveledRectangleBorder(
+                        shape: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),
                         onSelected: (value) {
@@ -144,7 +153,7 @@ class _playListState extends State<playList> {
                             deleteConfrimDilog(context, i);
                           }
                         },
-                        itemBuilder: (context) => [
+                        itemBuilder: (context) => const [
                           PopupMenuItem(
                             value: 0,
                             child: Row(
@@ -174,7 +183,7 @@ class _playListState extends State<playList> {
             );
           },
           separatorBuilder: (context, i) {
-            return SizedBox(
+            return const SizedBox(
               height: 6,
             );
           },
@@ -184,25 +193,28 @@ class _playListState extends State<playList> {
 
   deleteConfrimDilog(BuildContext context, int i) {
     showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            content: Text('ARE YOU SURE'),
-            actions: [
-              ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: Text('No')),
-              ElevatedButton(
-                  onPressed: () {
-                    playlistdelete(i);
-                    Navigator.of(context).pop();
-                  },
-                  child: Text('Yes')),
-            ],
-          );
-        });
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('ARE YOU SURE'),
+          actions: [
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('No'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                playlistdelete(i);
+                Navigator.of(context).pop();
+              },
+              child: const Text('Yes'),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   rename(BuildContext context, int i) {
@@ -212,7 +224,7 @@ class _playListState extends State<playList> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text("Rename playlist"),
+          title:const Text("Rename playlist"),
           content: Form(
             key: playListCreateFormKey,
             child: TextFormField(
@@ -238,13 +250,13 @@ class _playListState extends State<playList> {
           ),
           actions: [
             ElevatedButton(
-              child: Text("Cancel"),
+              child:const Text("Cancel"),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
             ElevatedButton(
-              child: Text("OK"),
+              child:const Text("OK"),
               onPressed: () {
                 if (playListCreateFormKey.currentState!.validate()) {
                   setState(() {

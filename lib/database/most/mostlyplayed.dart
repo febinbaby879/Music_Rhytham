@@ -1,70 +1,9 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:moon_walker/database/Allsongs/model/allSongModel.dart';
-import 'package:moon_walker/database/Recent/recentDB/recentdb.dart';
 import 'package:moon_walker/screens/fetchPermission/fetch_songs.dart';
 
 ValueNotifier<List<Songs>> mostplay = ValueNotifier([]);
-
-// mostlyPlayDBadd(Songs song) async {
-//   final Box<int> mostPlayDB = await Hive.openBox('most');
-//   int cnt = (mostPlayDB.get(song.id) ?? 0) + 1;
-//   mostPlayDB.put(song.id, cnt);
-//   if (cnt > 3 && mostplay.value.contains(song.id)) {
-//     mostplay.value.remove(song);
-//     mostplay.value.add(song);
-//     mostplay.notifyListeners();
-//   }
-//   if (mostplay.value.length > 9) {
-//     mostplay.value = mostplay.value.sublist(0, 9);
-//   }
-
-//   mostplay.notifyListeners();
-//   log("${mostPlayDB.length}");
-//    mostplayFetch();
-// }
-
-
-// mostplayFetch() async {
-//   final Box<int> mostPlayDB = await Hive.openBox('most');
-//   if (mostPlayDB.isEmpty) {
-//     for (Songs element in allSongs) {
-//       mostPlayDB.put(element.id, 0);
-//     }
-//   } else {
-//     for (int id in mostPlayDB.keys) {
-//       int cnt = mostPlayDB.get(id) ?? 0;
-//       if (cnt > 3) {
-//         for (Songs element in allSongs) {
-//           if (element.id == id) {
-//             mostplay.value.add(element);
-//             break;
-//           }
-//         }
-//       }
-//     }
-//     if (mostplay.value.length > 8) {
-//       mostplay.value = mostplay.value.sublist(0, 8);
-//     }
-//     mostplay.notifyListeners();
-//   }
-// }
-
-
-Songs? currentlyplaying;
-currentPlayingfinder(int playigid) {
-  for (Songs songs in allSongs) {
-    if (songs.id == playigid) {
-      currentlyplaying = songs;
-    }
-  }
-  // mostlyPlayDBadd(currentlyplaying!);
-  recentaddDB(currentlyplaying!);
-}
-
-
 
 
 // -----adding to mostly playeddb

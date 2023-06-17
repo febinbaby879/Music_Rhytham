@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:moon_walker/database/Allsongs/model/allSongModel.dart';
 import 'package:moon_walker/database/play_lists/db_functions/play_listfunc.dart';
-import 'package:moon_walker/screens/commen_widgets/newPLay_list.dart';
-import 'package:moon_walker/screens/commen_widgets/snackbar.dart';
+import 'package:moon_walker/widgets/newPLay_list.dart';
+import 'package:moon_walker/widgets/snackbar.dart';
 import 'package:moon_walker/screens/contatants/const.dart';
 import 'package:moon_walker/screens/playlist/play_list.dart';
 
@@ -16,8 +16,7 @@ class AddToPlaylist extends StatefulWidget {
 
 //Form State control key
 final playListCreateFormKey = GlobalKey<FormState>();
-//Text access rename playList
-//ValueNotifier<List<EachPlayList>> playListNotifier = ValueNotifier([]);
+
 //Serach playlist
 TextEditingController _playlistSearchControllor = TextEditingController();
 
@@ -47,7 +46,7 @@ class _AddToPlaylistState extends State<AddToPlaylist> {
           image: DecorationImage(
               image: AssetImage(musicImages.instance.scaffBackImg),
               fit: BoxFit.cover,
-              opacity: 190),
+              opacity: 230),
           gradient: LinearGradient(
               colors: ScafBack,
               begin: Alignment.topCenter,
@@ -185,10 +184,13 @@ class _AddToPlaylistState extends State<AddToPlaylist> {
               );
             }
           },
-          child: PlaylistSearchTile(
-            title: playListNotifier.value[index].name,
-            context: context,
-            index: index,
+          child: Padding(
+            padding: const EdgeInsets.only(left: 20.0, right: 20),
+            child: PlaylistSearchTile(
+              title: playListNotifier.value[index].name,
+              context: context,
+              index: index,
+            ),
           ),
         );
       },
@@ -234,7 +236,7 @@ class PlaylistSearchTile extends StatelessWidget {
                 height: 50,
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: AssetImage(musicImages.instance.playListImg),
+                    image: AssetImage(musicImages.instance.playListImg),fit: BoxFit.cover
                   ),
                   borderRadius: BorderRadius.circular(12),
                 ),

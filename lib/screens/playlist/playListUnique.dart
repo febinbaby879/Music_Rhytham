@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:moon_walker/database/Favourite/functions/fav_func.dart';
 import 'package:moon_walker/database/play_lists/db_functions/play_listfunc.dart';
-import 'package:moon_walker/screens/commen_widgets/listtile_customwidgets.dart';
-import 'package:moon_walker/screens/commen_widgets/snackbar.dart';
+import 'package:moon_walker/widgets/listtile_customwidgets.dart';
+import 'package:moon_walker/widgets/snackbar.dart';
 import 'package:moon_walker/screens/contatants/const.dart';
 import 'package:moon_walker/screens/favaouriteScreen/fav_icon.dart';
 import 'package:moon_walker/screens/fetchPermission/convert_audio.dart';
@@ -13,7 +13,7 @@ import 'package:moon_walker/screens/playlist/play_list_class.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 
 class playListUnique extends StatefulWidget {
-  final EachPlayList playList;
+  final uniqueList playList;
   final int ind;
   playListUnique({super.key, required this.playList,required this.ind});
 
@@ -21,14 +21,10 @@ class playListUnique extends StatefulWidget {
   State<playListUnique> createState() => _playListUniqueState();
 }
 
-ValueNotifier plusiconNotifier = ValueNotifier([]);
-
 class _playListUniqueState extends State<playListUnique> {
   @override
   Widget build(BuildContext context) {
-   // GlobalKey<ScaffoldState> scaffoldkey = GlobalKey<ScaffoldState>();
     return Scaffold(
-      //key: scaffoldkey,
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
@@ -64,7 +60,7 @@ class _playListUniqueState extends State<playListUnique> {
                           addSongFromUnique(context);
                         },
                         icon:const Icon(Icons.add),
-                      )
+                      ),
                     ],
                   ),
                 ),
@@ -82,7 +78,8 @@ class _playListUniqueState extends State<playListUnique> {
                               builder: (context) => miniLast(),
                             );
                           },
-                          child: playListTileCalling(context, index),
+                          child: (widget.playList.Container.isEmpty)?noSongsplyList():playListTileCalling(context, index),
+                          //playListTileCalling(context, index),
                         );
                       }),
                       separatorBuilder: (context, index) => SizedBox(),
@@ -99,6 +96,9 @@ class _playListUniqueState extends State<playListUnique> {
     );
   }
 
+  Center noSongsplyList(){
+    return const Center(child: Text('Oops no more songs'),);
+  }
   addSongFromUnique(BuildContext context) {
     return showModalBottomSheet(
       context: context,
@@ -181,6 +181,7 @@ class _playListUniqueState extends State<playListUnique> {
         currentSong: widget.playList.Container[i],
         isfav: favarotList.value.contains(widget.playList.Container[i]),
       ),
+      
       trailing2: PopupMenuButton(
         onSelected: (value) {
           if (value == 0) {

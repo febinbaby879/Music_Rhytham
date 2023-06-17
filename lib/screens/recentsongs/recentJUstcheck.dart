@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:moon_walker/database/Favourite/functions/fav_func.dart';
 import 'package:moon_walker/database/Recent/recentDB/recentdb.dart';
-import 'package:moon_walker/screens/commen_widgets/listtile_customwidgets.dart';
+import 'package:moon_walker/widgets/listtile_customwidgets.dart';
 import 'package:moon_walker/screens/contatants/const.dart';
 import 'package:moon_walker/screens/favaouriteScreen/fav_icon.dart';
 import 'package:moon_walker/screens/fetchPermission/convert_audio.dart';

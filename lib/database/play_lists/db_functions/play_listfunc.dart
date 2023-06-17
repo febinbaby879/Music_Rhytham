@@ -2,18 +2,16 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:moon_walker/database/Allsongs/model/allSongModel.dart';
 import 'package:moon_walker/database/play_lists/model/play_list_model.dart';
 import 'package:moon_walker/screens/fetchPermission/fetch_songs.dart';
-import 'package:moon_walker/screens/playlist/playListUnique.dart';
 import 'package:moon_walker/screens/playlist/play_list.dart';
 import 'package:moon_walker/screens/playlist/play_list_class.dart';
 
 Future playlistCreating(playlistName) async {
-  playListNotifier.value.insert(0, EachPlayList(name: playlistName),);
+  playListNotifier.value.insert(0, uniqueList(name: playlistName));
   Box<playListClass> playlistdb = await Hive.openBox('playlist');
-  playlistdb.add(playListClass(playListName: playlistName),);
-    playListNotifier.notifyListeners();
+  playlistdb.add(playListClass(playListName: playlistName));
+  playListNotifier.notifyListeners();
   playlistBodyNotifier.notifyListeners();
 }
-
 
 Future playlistrename(int index, String newname) async {
   String playlistname = playListNotifier.value[index].name;
@@ -30,24 +28,22 @@ Future playlistrename(int index, String newname) async {
   playlistBodyNotifier.notifyListeners();
 }
 
-
 getplayList() async {
-    Box<playListClass> playlistdb = await Hive.openBox('PlayList');
-    for (playListClass elements in playlistdb.values) {
-      String playlistname = elements.playListName;
-      EachPlayList getplayList = EachPlayList(name: playlistname);
-      for (int id in elements.items) {
-        for (Songs songs in allSongs) {
-          if (id == songs.id) {
-            getplayList.Container.add(songs);
-            break;
-          }
+  Box<playListClass> playlistdb = await Hive.openBox('PlayList');
+  for (playListClass elements in playlistdb.values) {
+    String playlistname = elements.playListName;
+    uniqueList getplayList = uniqueList(name: playlistname);
+    for (int id in elements.items) {
+      for (Songs songs in allSongs) {
+        if (id == songs.id) {
+          getplayList.Container.add(songs);
+          break;
         }
       }
-      playListNotifier.value.add(getplayList);
     }
-  } 
-
+    playListNotifier.value.add(getplayList);
+  }
+}
 
 Future playlistAddDB(Songs addingSong, String playlistName) async {
   Box<playListClass> playlistdb = await Hive.openBox('playlist');
@@ -62,9 +58,7 @@ Future playlistAddDB(Songs addingSong, String playlistName) async {
       break;
     }
   }
-  plusiconNotifier.notifyListeners();
 }
-
 
 Future playlistdelete(int index) async {
   String playlistname = playListNotifier.value[index].name;

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:moon_walker/database/Favourite/functions/fav_func.dart';
 import 'package:moon_walker/database/most/mostlyplayed.dart';
-import 'package:moon_walker/screens/commen_widgets/appBar.dart';
-import 'package:moon_walker/screens/commen_widgets/listtile_customwidgets.dart';
+import 'package:moon_walker/widgets/appBar.dart';
+import 'package:moon_walker/widgets/listtile_customwidgets.dart';
 import 'package:moon_walker/screens/contatants/const.dart';
+import 'package:moon_walker/screens/favaouriteScreen/fav_icon.dart';
 import 'package:moon_walker/screens/fetchPermission/convert_audio.dart';
 import 'package:moon_walker/screens/now_mini/mini_laast.dart';
 import 'package:moon_walker/screens/playlist/add.dart';
@@ -36,7 +38,7 @@ class mostplayed extends StatelessWidget {
             child: ValueListenableBuilder(
               valueListenable: mostplay,
               builder: (context, value, _) {
-                return (mostplay.value.isEmpty ? NOsongs() : mostplaybuid());
+                return (mostplay.value.isEmpty ? noSongs() : mostplaybuid());
               },
             ),
           ),
@@ -79,10 +81,10 @@ class mostplayed extends StatelessWidget {
                 ),
               ),
             ),
-            // trailing1: favIcon(
-            //   currentSong: mostplay.value[index],
-            //   isfav: favarotList.value.contains(allSongs[index]),
-            // ),
+            trailing1: favIcon(
+              currentSong: mostplay.value[index],
+              isfav: favarotList.value.contains(mostplay.value[index]),
+            ),
             trailing2: PopupMenuButton(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12),
@@ -102,12 +104,12 @@ class mostplayed extends StatelessWidget {
                 FontAwesomeIcons.ellipsisVertical,
                 size: 26,
               ),
-              itemBuilder: (context) => [
+              itemBuilder: (context) => const[
                 PopupMenuItem(
                   value: 0,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: const [
+                    children: [
                       Icon(
                         Icons.playlist_add,
                       ),
@@ -126,8 +128,8 @@ class mostplayed extends StatelessWidget {
     );
   }
 
- Center NOsongs() {
-   return Center(
+ Center  noSongs() {
+   return const Center(
       child: Text('No most played songs'),
     );
   }

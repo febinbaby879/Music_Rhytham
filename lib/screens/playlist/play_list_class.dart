@@ -1,10 +1,10 @@
 import 'package:moon_walker/database/Allsongs/model/allSongModel.dart';
 
-class EachPlayList{
+class uniqueList{
   String name;
   List<Songs> Container=[];
   
-  EachPlayList({required this.name});
+  uniqueList({required this.name});
 }
 
 
