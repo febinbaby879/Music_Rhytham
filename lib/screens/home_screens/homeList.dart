@@ -18,7 +18,7 @@ import 'package:on_audio_query/on_audio_query.dart';
 import 'package:shimmer/shimmer.dart';
 
 class MyHomePage extends StatefulWidget {
- const MyHomePage({super.key});
+  const MyHomePage({super.key});
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
@@ -51,7 +51,8 @@ class _MyHomePageState extends State<MyHomePage> {
                       SizedBox(
                         width: 200.0,
                         child: Shimmer.fromColors(
-                          baseColor: const Color.fromARGB(255, 64, 0, 255).withOpacity(.9),
+                          baseColor: const Color.fromARGB(255, 64, 0, 255)
+                              .withOpacity(.9),
                           highlightColor: Colors.deepOrange,
                           child: Padding(
                             padding: const EdgeInsets.only(top: 8.0),
@@ -64,16 +65,16 @@ class _MyHomePageState extends State<MyHomePage> {
                           ),
                         ),
                       ),
-                     const Spacer(),
+                      const Spacer(),
                       IconButton(
                         onPressed: () {
                           Navigator.of(context).push(
                             MaterialPageRoute(
-                              builder: (context) =>const searchScreen(),
+                              builder: (context) => const searchScreen(),
                             ),
                           );
                         },
-                        icon:const Icon(
+                        icon: const Icon(
                           Icons.search,
                         ),
                       ),
@@ -86,7 +87,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 Container(
                   height: 150,
                   child: ListView(
-                    physics:const BouncingScrollPhysics(),
+                    physics: const BouncingScrollPhysics(),
                     scrollDirection: Axis.horizontal,
                     children: [
                       InkWell(
@@ -103,8 +104,8 @@ class _MyHomePageState extends State<MyHomePage> {
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(12),
                                 image: DecorationImage(
-                                  image:
-                                      AssetImage(musicImages.instance.favBoxImg),
+                                  image: AssetImage(
+                                      musicImages.instance.favBoxImg),
                                   fit: BoxFit.cover,
                                 ),
                               ),
@@ -120,7 +121,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                     'Favourites',
                                     style: GoogleFonts.abel(),
                                   )),
-                                  decoration:const BoxDecoration(
+                                  decoration: const BoxDecoration(
                                       color: Colors.white,
                                       borderRadius: BorderRadius.only(
                                         bottomLeft: Radius.circular(12),
@@ -134,13 +135,13 @@ class _MyHomePageState extends State<MyHomePage> {
                           ],
                         ),
                       ),
-                     const SizedBox(
+                      const SizedBox(
                         width: 20,
                       ),
                       InkWell(
                         onTap: () {
                           Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) =>const playList()));
+                              builder: (context) => const playList()));
                         },
                         child: Stack(
                           children: [
@@ -148,8 +149,8 @@ class _MyHomePageState extends State<MyHomePage> {
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(12),
                                   image: DecorationImage(
-                                      image:
-                                          AssetImage(musicImages.instance.playImg),
+                                      image: AssetImage(
+                                          musicImages.instance.playImg),
                                       fit: BoxFit.cover)),
                               width: 150,
                             ),
@@ -161,7 +162,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                   child: Center(
                                       child: Text('Playlists',
                                           style: GoogleFonts.abel())),
-                                  decoration:const BoxDecoration(
+                                  decoration: const BoxDecoration(
                                       color: Colors.white,
                                       borderRadius: BorderRadius.only(
                                         bottomLeft: Radius.circular(12),
@@ -175,13 +176,13 @@ class _MyHomePageState extends State<MyHomePage> {
                           ],
                         ),
                       ),
-                     const SizedBox(
+                      const SizedBox(
                         width: 20,
                       ),
                       InkWell(
                         onTap: () {
                           Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) =>const mostplayed()));
+                              builder: (context) => const mostplayed()));
                         },
                         child: Stack(
                           children: [
@@ -202,12 +203,13 @@ class _MyHomePageState extends State<MyHomePage> {
                                   child: Center(
                                       child: Text('Mostly Played',
                                           style: GoogleFonts.abel())),
-                                  decoration: const BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.only(
-                                        bottomLeft: Radius.circular(12),
-                                        bottomRight: Radius.circular(12),
-                                      )),
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.only(
+                                      bottomLeft: Radius.circular(12),
+                                      bottomRight: Radius.circular(12),
+                                    ),
+                                  ),
                                   width: 150,
                                   height: 20,
                                 ),
@@ -224,7 +226,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 Container(
                   alignment: Alignment.bottomLeft,
-                  child:const Text(
+                  child: const Text(
                     "All Songs",
                   ),
                 ),
@@ -255,7 +257,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   ListView allSongsListview(List<Songs> song) {
     return ListView.separated(
-        physics:const BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         itemBuilder: ((context, index) {
           return InkWell(
             onTap: () async {
@@ -285,7 +287,10 @@ class _MyHomePageState extends State<MyHomePage> {
                 allSongs[index].songname!,
                 overflow: TextOverflow.ellipsis,
               ),
-              subtitle: Text(allSongs[index].artist ?? 'No artist',overflow: TextOverflow.ellipsis,),
+              subtitle: Text(
+                allSongs[index].artist ?? 'No artist',
+                overflow: TextOverflow.ellipsis,
+              ),
               trailing1: favIcon(
                 currentSong: allSongs[index],
                 isfav: favarotList.value.contains(
@@ -309,7 +314,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   borderRadius: BorderRadius.circular(12),
                 ),
                 shadowColor: Colors.brown,
-                itemBuilder: (context) => const[
+                itemBuilder: (context) => const [
                   PopupMenuItem(
                     value: 0,
                     child: Row(
