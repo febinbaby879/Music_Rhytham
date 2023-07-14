@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:moon_walker/database/play_lists/db_functions/play_listfunc.dart';
-import 'package:moon_walker/screens/playlist/add.dart';
-import 'package:moon_walker/screens/playlist/play_list.dart';
+import 'package:moon_walker/presentatation/playlist/add.dart';
+import 'package:moon_walker/presentatation/playlist/play_list.dart';
+
+import '../infrastructure/dbfunc/playlist/play_listfunc.dart';
 
 createNewplaylist(BuildContext context) {
   return showDialog(

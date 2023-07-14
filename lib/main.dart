@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:moon_walker/database/Allsongs/model/allSongModel.dart';
-import 'package:moon_walker/database/Favourite/model/model.dart';
-import 'package:moon_walker/database/play_lists/model/play_list_model.dart';
-import 'package:moon_walker/splashScreen/splash_screen.dart';
-import 'package:moon_walker/screens/dark_mode/theme.dart';
+import 'package:moon_walker/presentatation/dark_mode/theme.dart';
+import 'package:moon_walker/presentatation/splashScreen/splash_screen.dart';
 import 'package:provider/provider.dart';
+import 'domain/Allsongs/model/allSongModel.dart';
+import 'domain/Favourite/model/model.dart';
+import 'domain/play_lists/model/play_list_model.dart';
+
+
 
 Future<void> main(List<String> args) async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,7 +26,7 @@ Future<void> main(List<String> args) async {
   runApp(
     ChangeNotifierProvider(
       create: (_) => ThemeModel(),
-      child: MyApp(),
+      child: const MyApp(),
     ),
   );
 }
@@ -45,7 +47,7 @@ class MyApp extends StatelessWidget {
           ? ThemeMode.light
           : ThemeMode.dark,
       debugShowCheckedModeBanner: false,
-      home: const SplashScreen(),
+      home:const SplashScreen(),
     );
   }
 }

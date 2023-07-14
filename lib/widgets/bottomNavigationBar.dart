@@ -1,9 +1,9 @@
 import 'package:ff_navigation_bar_plus/ff_navigation_bar_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:moon_walker/screens/recentsongs/recentJUstcheck.dart';
-import 'package:moon_walker/screens/home_screens/homeList.dart';
-import 'package:moon_walker/screens/settings/setting.dart';
+import 'package:moon_walker/presentatation/recentsongs/recentJUstcheck.dart';
+import 'package:moon_walker/presentatation/home_screens/homeList.dart';
+import 'package:moon_walker/presentatation/settings/setting.dart';
 
 class musicAppBottomNav extends StatefulWidget {
   musicAppBottomNav({super.key});
