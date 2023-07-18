@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:moon_walker/infrastructure/dbfunc/favourite/fav_func.dart';
+import 'package:moon_walker/application/favourite/favourite_bloc.dart';
 import 'package:moon_walker/widgets/listtile_customwidgets.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 import 'package:shimmer/shimmer.dart';
@@ -17,14 +18,9 @@ import '../playlist/add.dart';
 import '../playlist/play_list.dart';
 import '../search/search.dart';
 
-class MyHomePage extends StatefulWidget {
+class MyHomePage extends StatelessWidget {
   const MyHomePage({super.key});
 
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -44,46 +40,44 @@ class _MyHomePageState extends State<MyHomePage> {
           padding: const EdgeInsets.only(right: 9, top: 12, left: 9),
           child: Column(
             children: [
-              Container(
-                child: Row(
-                  children: [
-                    SizedBox(
-                      width: 200.0,
-                      child: Shimmer.fromColors(
-                        baseColor: const Color.fromARGB(255, 64, 0, 255)
-                        .withOpacity(.9),
-                        highlightColor: Colors.deepOrange,
-                        child: Padding(
-                          padding: const EdgeInsets.only(top: 8.0),
-                          child: Text(
-                            "Lets' feel it",
-                            style: GoogleFonts.aBeeZee(
-                              fontSize: 30.0,
-                            ),
+              Row(
+                children: [
+                  SizedBox(
+                    width: 200.0,
+                    child: Shimmer.fromColors(
+                      baseColor:  Colors.yellow 
+                          .withOpacity(.9),
+                      highlightColor:const Color.fromARGB(255, 64, 0, 255),
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 8.0),
+                        child: Text(
+                          "Lets' feel it",
+                          style: GoogleFonts.aBeeZee(
+                            fontSize: 30.0,
                           ),
                         ),
                       ),
                     ),
-                    const Spacer(),
-                    IconButton(
-                      onPressed: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => const searchScreen(),
-                          ),
-                        );
-                      },
-                      icon: const Icon(
-                        Icons.search,
-                      ),
+                  ),
+                  const Spacer(),
+                  IconButton(
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => searchScreen(),
+                        ),
+                      );
+                    },
+                    icon: const Icon(
+                      Icons.search,
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
               SizedBox(
                 height: MediaQuery.of(context).size.height * .02,
               ),
-              Container(
+              SizedBox(
                 height: 150,
                 child: ListView(
                   physics: const BouncingScrollPhysics(),
@@ -93,7 +87,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       onTap: () {
                         Navigator.of(context).push(
                           MaterialPageRoute(
-                            builder: (context) => favouriteScreen(),
+                            builder: (context) => FavouriteScreen(),
                           ),
                         );
                       },
@@ -103,8 +97,8 @@ class _MyHomePageState extends State<MyHomePage> {
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(12),
                               image: DecorationImage(
-                                image: AssetImage(
-                                    MusicImages.instance.favBoxImg),
+                                image:
+                                    AssetImage(MusicImages.instance.favBoxImg),
                                 fit: BoxFit.cover,
                               ),
                             ),
@@ -115,11 +109,6 @@ class _MyHomePageState extends State<MyHomePage> {
                             child: Opacity(
                               opacity: .7,
                               child: Container(
-                                child: Center(
-                                    child: Text(
-                                  'Favourites',
-                                  style: GoogleFonts.abel(),
-                                )),
                                 decoration: const BoxDecoration(
                                     color: Colors.white,
                                     borderRadius: BorderRadius.only(
@@ -128,6 +117,11 @@ class _MyHomePageState extends State<MyHomePage> {
                                     )),
                                 width: 150,
                                 height: 20,
+                                child: Center(
+                                    child: Text(
+                                  'Favourites',
+                                  style: GoogleFonts.abel(),
+                                )),
                               ),
                             ),
                           )
@@ -289,11 +283,15 @@ class _MyHomePageState extends State<MyHomePage> {
                 allSongs[index].artist ?? 'No artist',
                 overflow: TextOverflow.ellipsis,
               ),
-              trailing1: favIcon(
-                currentSong: allSongs[index],
-                isfav: favarotList.value.contains(
-                  allSongs[index],
-                ),
+              trailing1: BlocBuilder<FavouriteBloc, FavouriteState>(
+                builder: (context, state) {
+                  return favIcon(
+                    currentSong: allSongs[index],
+                    isfav: state.favouriteList.contains(
+                      allSongs[index],
+                    ),
+                  );
+                },
               ),
               trailing2: PopupMenuButton(
                 iconSize: 30,
@@ -338,7 +336,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Center songNotFound() {
     return const Center(
-      child: Text("No songs available"),
+      child: Text("No songs available please add some songs"),
     );
   }
 }

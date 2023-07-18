@@ -1,13 +1,18 @@
 import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
+import 'package:moon_walker/domain/Allsongs/model/allSongModel.dart';
 
 part 'search_event.dart';
 part 'search_state.dart';
 
 class SearchBloc extends Bloc<SearchEvent, SearchState> {
   SearchBloc() : super(SearchInitial()) {
-    on<SearchEvent>((event, emit) {
-      // TODO: implement event handler
+    on<Search>((event, emit) {
+      List<Songs> searchList=[];
+      searchList=event.allsongs.where((element) => element.songname!
+              .toLowerCase()
+              .contains(event.query.toLowerCase().trim()))
+          .toList();
+          emit(SearchState(searchlist: searchList));
     });
   }
 }

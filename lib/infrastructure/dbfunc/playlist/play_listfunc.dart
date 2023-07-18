@@ -12,7 +12,9 @@ Future playlistCreating(playlistName) async {
   playListNotifier.value.insert(0, uniqueList(name: playlistName));
   Box<playListClass> playlistdb = await Hive.openBox('playlist');
   playlistdb.add(playListClass(playListName: playlistName));
+  // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
   playListNotifier.notifyListeners();
+  // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
   playlistBodyNotifier.notifyListeners();
 }
 
@@ -27,7 +29,9 @@ Future playlistrename(int index, String newname) async {
     }
   }
   playListNotifier.value[index].name = newname;
+  // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
   playListNotifier.notifyListeners();
+  // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
   playlistBodyNotifier.notifyListeners();
 }
 
@@ -74,7 +78,9 @@ Future playlistdelete(int index) async {
     }
   }
   playListNotifier.value.removeAt(index);
+  // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
   playListNotifier.notifyListeners();
+  // ignore: invalid_use_of_protected_member, invalid_use_of_visible_for_testing_member
   playlistBodyNotifier.notifyListeners();
 }
 

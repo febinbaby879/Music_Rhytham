@@ -37,7 +37,7 @@ class _playListState extends State<playList> {
         ),
         elevation: 0,
         backgroundColor: Colors.transparent,
-        title: Text(
+        title:const Text(
           'Play list',
           style: TextStyle(fontFamily: 'Roboto'),
         ),
@@ -89,7 +89,7 @@ class _playListState extends State<playList> {
   }
 
   Center emptyPlaylist() {
-    return Center(
+    return const Center(
       child: Text('Oops Playlist is empty'),
     );
   }

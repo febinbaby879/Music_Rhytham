@@ -8,17 +8,11 @@ import 'package:on_audio_query/on_audio_query.dart';
 
 import '../../infrastructure/dbfunc/recent/recentdb.dart';
 
-class miniLast extends StatefulWidget {
+class miniLast extends StatelessWidget {
   miniLast({super.key});
 
   @override
-  State<miniLast> createState() => _miniLastState();
-}
-
-class _miniLastState extends State<miniLast> {
-  
-  @override
-  Widget build(BuildContext context) {   
+  Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
         Navigator.of(context).push(
@@ -36,17 +30,22 @@ class _miniLastState extends State<miniLast> {
           width: MediaQuery.of(context).size.width * 1,
           child: Container(
             decoration: BoxDecoration(
-              image: DecorationImage(image: AssetImage(MusicImages.instance.miniIMG),fit: BoxFit.cover,opacity: 190),
+              image: DecorationImage(
+                image: AssetImage(MusicImages.instance.miniIMG),
+                fit: BoxFit.cover,
+                opacity: 240,
+              ),
               gradient: LinearGradient(
                 colors: miniplayerColor,
                 begin: Alignment.bottomLeft,
-                end: Alignment.bottomRight),
+                end: Alignment.bottomRight,
+              ),
             ),
             child: assetsAudioPlayer.builderCurrent(
               builder: (context, playing) {
-               int id= int.parse(playing.audio.audio.metas.id!);
-               currentPlayingfinder(id);
-               mostlyPlayedaddTodb(id);
+                int id = int.parse(playing.audio.audio.metas.id!);
+                currentPlayingfinder(id);
+                mostlyPlayedaddTodb(id);
                 return Row(
                   children: [
                     Padding(
@@ -88,8 +87,9 @@ class _miniLastState extends State<miniLast> {
                       ),
                     ),
                     IconButton(
-                      icon:const Icon(
-                        Icons.skip_previous),
+                      icon: const Icon(
+                        Icons.skip_previous,
+                      ),
                       onPressed: () {
                         assetsAudioPlayer.previous();
                       },
@@ -110,7 +110,7 @@ class _miniLastState extends State<miniLast> {
                       ),
                     ),
                     IconButton(
-                      icon:const Icon(Icons.skip_next),
+                      icon: const Icon(Icons.skip_next),
                       onPressed: () {
                         assetsAudioPlayer.next();
                       },
@@ -124,5 +124,4 @@ class _miniLastState extends State<miniLast> {
       ),
     );
   }
-  
 }

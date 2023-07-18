@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:moon_walker/infrastructure/dbfunc/favourite/fav_func.dart';
+import 'package:moon_walker/application/favourite/favourite_bloc.dart';
 import 'package:moon_walker/infrastructure/dbfunc/most/mostlyplayed.dart';
 import 'package:moon_walker/widgets/appBar.dart';
 import 'package:moon_walker/widgets/listtile_customwidgets.dart';
@@ -12,7 +13,6 @@ import 'package:on_audio_query/on_audio_query.dart';
 
 import '../../infrastructure/functions/convertaudio.dart';
 
-
 class mostplayed extends StatelessWidget {
   const mostplayed({super.key});
 
@@ -20,22 +20,21 @@ class mostplayed extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar: appBar(       
-      context, 'Most Played'),
+      appBar: appBar(context, 'Most Played'),
       body: Container(
         decoration: BoxDecoration(
-        image: DecorationImage(
-            image: AssetImage(MusicImages.instance.scaffBackImg),
-            fit: BoxFit.cover,
-            opacity: 230),
-        gradient: LinearGradient(
-          colors: scafBack,
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
+          image: DecorationImage(
+              image: AssetImage(MusicImages.instance.scaffBackImg),
+              fit: BoxFit.cover,
+              opacity: 230),
+          gradient: LinearGradient(
+            colors: scafBack,
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
         ),
-      ),
         child: Padding(
-          padding: const EdgeInsets.only(left:9.0,right: 9),
+          padding: const EdgeInsets.only(left: 9.0, right: 9),
           child: SafeArea(
             child: ValueListenableBuilder(
               valueListenable: mostplay,
@@ -51,16 +50,16 @@ class mostplayed extends StatelessWidget {
 
   ListView mostplaybuid() {
     return ListView.builder(
-      physics:const BouncingScrollPhysics(),
+      physics: const BouncingScrollPhysics(),
       itemBuilder: (context, index) {
         return InkWell(
           onTap: () {
-              audioConvert(mostplay.value, index);
-              showBottomSheet(
-                context: context,
-                builder: ((context) => miniLast()),
-              );
-            },
+            audioConvert(mostplay.value, index);
+            showBottomSheet(
+              context: context,
+              builder: ((context) => miniLast()),
+            );
+          },
           child: listTileWidget(
             index: index,
             context: context,
@@ -83,9 +82,13 @@ class mostplayed extends StatelessWidget {
                 ),
               ),
             ),
-            trailing1: favIcon(
-              currentSong: mostplay.value[index],
-              isfav: favarotList.value.contains(mostplay.value[index]),
+            trailing1: BlocBuilder<FavouriteBloc, FavouriteState>(
+              builder: (context, state) {
+                return favIcon(
+                  currentSong: mostplay.value[index],
+                  isfav: state.favouriteList.contains(mostplay.value[index]),
+                );
+              },
             ),
             trailing2: PopupMenuButton(
               shape: RoundedRectangleBorder(
@@ -106,7 +109,7 @@ class mostplayed extends StatelessWidget {
                 FontAwesomeIcons.ellipsisVertical,
                 size: 26,
               ),
-              itemBuilder: (context) => const[
+              itemBuilder: (context) => const [
                 PopupMenuItem(
                   value: 0,
                   child: Row(
@@ -130,9 +133,9 @@ class mostplayed extends StatelessWidget {
     );
   }
 
- Center  noSongs() {
-   return const Center(
-      child: Text('No SongList > 3'),
+  Center noSongs() {
+    return const Center(
+      child: Text('Play one song atleast '),
     );
   }
 }

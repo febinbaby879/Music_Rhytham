@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:moon_walker/infrastructure/dbfunc/favourite/fav_func.dart';
+import 'package:moon_walker/presentatation/favaouriteScreen/favouriteScreen.dart';
 import 'package:moon_walker/widgets/listtile_customwidgets.dart';
 import 'package:moon_walker/widgets/snackbar.dart';
 import 'package:moon_walker/core/contatants/const.dart';

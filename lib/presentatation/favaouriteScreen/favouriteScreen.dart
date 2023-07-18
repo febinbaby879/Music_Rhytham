@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:moon_walker/infrastructure/dbfunc/favourite/fav_func.dart';
+import 'package:moon_walker/application/favourite/favourite_bloc.dart';
+import 'package:moon_walker/domain/Allsongs/model/allSongModel.dart';
 import 'package:moon_walker/widgets/appBar.dart';
 import 'package:moon_walker/widgets/listtile_customwidgets.dart';
 import 'package:moon_walker/core/contatants/const.dart';
@@ -11,44 +13,55 @@ import 'package:on_audio_query/on_audio_query.dart';
 
 import '../../infrastructure/functions/convertaudio.dart';
 
+ValueNotifier<List<Songs>> favarotList = ValueNotifier([]);
 
-class favouriteScreen extends StatefulWidget {
-  favouriteScreen({super.key});
+List<Songs> favouriteList = [];
 
-  @override
-  State<favouriteScreen> createState() => _favouriteScreenState();
-}
+class FavouriteScreen extends StatelessWidget {
+  FavouriteScreen({super.key});
 
-class _favouriteScreenState extends State<favouriteScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      extendBodyBehindAppBar: true,
-      appBar: appBar(context, 'Favourites'),
-      body: Container(
-        decoration: BoxDecoration(
-        image: DecorationImage(
-            image: AssetImage(MusicImages.instance.scaffBackImg),
-            fit: BoxFit.cover,
-            opacity: 240),
-        gradient: LinearGradient(
-            colors: scafBack,
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter),
-      ),
-        child: Padding(
-          padding: const EdgeInsets.only(
-          left:9.0,right: 9),
-          child: ValueListenableBuilder(
-            valueListenable: favarotList,
-            builder: (context, value, child) =>
-            (favarotList.value.isEmpty) ? noSong() : favouritebuilderfunction(),
-          ),
-        ),
-      ),
+    return BlocBuilder<FavouriteBloc, FavouriteState>(
+      builder: (context, state) {
+        return Scaffold(
+          extendBodyBehindAppBar: true,
+          appBar: appBar(context, 'Favourites'),
+          body: Container(
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage(
+                    MusicImages.instance.scaffBackImg,
+                  ),
+                  fit: BoxFit.cover,
+                  opacity: 240,
+                ),
+                gradient: LinearGradient(
+                  colors: scafBack,
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                ),
+              ),
+              child: Container(
+                padding: const EdgeInsets.all(12),
+                child: (state.favouriteList.isEmpty)
+                    ? noSong()
+                    : favouritebuilderfunction(state),
+              )
+              // child: Padding(
+              //   padding: const EdgeInsets.only(left: 9.0, right: 9),
+              //   child: ValueListenableBuilder(
+              //     valueListenable: favarotList,
+              //     builder: (context, value, child) => (favarotList.value.isEmpty)
+              //         ? noSong()
+              //         : favouritebuilderfunction(),
+              //   ),
+              // ),
+              ),
+        );
+      },
     );
   }
-
 
   Center noSong() {
     return const Center(
@@ -59,15 +72,18 @@ class _favouriteScreenState extends State<favouriteScreen> {
     );
   }
 
-  favouritebuilderfunction() {
+  favouritebuilderfunction(FavouriteState state) {
     return ListView.builder(
       physics: const BouncingScrollPhysics(),
       itemBuilder: (context, index) {
         return Padding(
-          padding: const EdgeInsets.only(top: 20,),
+          padding: const EdgeInsets.only(
+            top: 20,
+          ),
           child: InkWell(
             onTap: () {
-              audioConvert(favarotList.value, index);
+              //audioConvert(favarotList.value, index);
+              audioConvert(state.favouriteList, index);
               showBottomSheet(
                 context: context,
                 builder: ((context) => miniLast()),
@@ -77,15 +93,17 @@ class _favouriteScreenState extends State<favouriteScreen> {
               index: index,
               context: context,
               title: Text(
-                favarotList.value[index].songname!,
+                //favarotList.value[index].songname!,
+                state.favouriteList[index].songname!,
                 overflow: TextOverflow.ellipsis,
               ),
               subtitle: Text(
-                favarotList.value[index].artist ?? 'unknown',
-              ),
+                  //favarotList.value[index].artist ?? 'unknown',
+                  state.favouriteList[index].artist ?? ' Unknown artist'),
               leading: QueryArtworkWidget(
                 artworkFit: BoxFit.cover,
-                id: favarotList.value[index].id!,
+                id: state.favouriteList[index].id!,
+                //id: favarotList.value[index].id!,
                 type: ArtworkType.AUDIO,
                 nullArtworkWidget: ClipRRect(
                   borderRadius: BorderRadius.circular(27),
@@ -96,7 +114,8 @@ class _favouriteScreenState extends State<favouriteScreen> {
                 ),
               ),
               trailing1: favIcon(
-                currentSong: favarotList.value[index],
+                currentSong: state.favouriteList[index],
+                //currentSong: favarotList.value[index],
                 isfav: true,
               ),
               trailing2: PopupMenuButton(
@@ -108,7 +127,8 @@ class _favouriteScreenState extends State<favouriteScreen> {
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (ctx) => AddToPlaylist(
-                            addToPlaylistSong: favarotList.value[index],
+                          addToPlaylistSong: state.favouriteList[index],
+                          //addToPlaylistSong: favarotList.value[index],
                         ),
                       ),
                     );
@@ -139,7 +159,7 @@ class _favouriteScreenState extends State<favouriteScreen> {
           ),
         );
       },
-      itemCount: favarotList.value.length,
+      itemCount: state.favouriteList.length,
     );
   }
 }

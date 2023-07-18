@@ -7,22 +7,12 @@ import 'package:moon_walker/presentatation/playlist/play_list.dart';
 import '../../domain/Allsongs/model/allSongModel.dart';
 import '../../infrastructure/dbfunc/playlist/play_listfunc.dart';
 
-class AddToPlaylist extends StatefulWidget {
+class AddToPlaylist extends StatelessWidget {
   final Songs addToPlaylistSong;
-  const AddToPlaylist({super.key, required this.addToPlaylistSong});
+  AddToPlaylist({super.key, required this.addToPlaylistSong});
 
-  @override
-  State<AddToPlaylist> createState() => _AddToPlaylistState();
-}
-
-//Form State control key
-final playListCreateFormKey = GlobalKey<FormState>();
-
-//Serach playlist
-TextEditingController _playlistSearchControllor = TextEditingController();
-
-class _AddToPlaylistState extends State<AddToPlaylist> {
   double screenWidth = 0;
+
   @override
   Widget build(BuildContext context) {
     screenWidth = MediaQuery.of(context).size.width;
@@ -88,11 +78,11 @@ class _AddToPlaylistState extends State<AddToPlaylist> {
                           _playlistSearchControllor.text.isEmpty ||
                                   _playlistSearchControllor.text.trim().isEmpty
                               ? selecPlayListAdding(
-                                  context, widget.addToPlaylistSong)
+                                  context, addToPlaylistSong)
                               : playListNotifier.value.isEmpty
                                   ? connotFindPlayList()
                                   : searchFindAfterAdding(
-                                      context, widget.addToPlaylistSong),
+                                      context, addToPlaylistSong),
                     ),
                   ),
           ],
@@ -129,16 +119,16 @@ class _AddToPlaylistState extends State<AddToPlaylist> {
         return InkWell(
           onTap: () {
             if (playListNotifier.value[index].Container
-                .contains(widget.addToPlaylistSong)) {
+                .contains(addToPlaylistSong)) {
               SnackBaaaar(
                 text: 'Song is already exist',
                 context: context,
               );
             } else {
               playListNotifier.value[index].Container
-                  .add(widget.addToPlaylistSong);
+                  .add(addToPlaylistSong);
               playlistAddDB(
-                  widget.addToPlaylistSong, playListNotifier.value[index].name);
+                  addToPlaylistSong, playListNotifier.value[index].name);
               SnackBaaaar(
                 text: 'Song added',
                 context: context,
@@ -168,15 +158,15 @@ class _AddToPlaylistState extends State<AddToPlaylist> {
         return InkWell(
           onTap: () {
             if (playListNotifier.value[index].Container
-                .contains(widget.addToPlaylistSong)) {
+                .contains(addToPlaylistSong)) {
               SnackBaaaar(
                 text: 'Song is already existing',
                 context: context,
               );
             } else {
               playListNotifier.value[index].Container
-                  .add(widget.addToPlaylistSong);
-              playlistAddDB(widget.addToPlaylistSong,
+                  .add(addToPlaylistSong);
+              playlistAddDB(addToPlaylistSong,
                   playListNotifier.value[index].name);
               SnackBaaaar(
                 text:
@@ -199,6 +189,12 @@ class _AddToPlaylistState extends State<AddToPlaylist> {
     );
   }
 }
+
+//Form State control key
+final playListCreateFormKey = GlobalKey<FormState>();
+
+//Serach playlist
+TextEditingController _playlistSearchControllor = TextEditingController();
 
 class PlaylistSearchTile extends StatelessWidget {
   final int index;

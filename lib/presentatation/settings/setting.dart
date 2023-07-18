@@ -4,13 +4,8 @@ import 'package:moon_walker/core/contatants/const.dart';
 import 'package:moon_walker/presentatation/dark_mode/theme.dart';
 import 'package:provider/provider.dart';
 
-class SettingsScreen extends StatefulWidget {
+class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
-  @override
-  State<SettingsScreen> createState() => _SettingsScreenState();
-}
-
-class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     //Switch theme

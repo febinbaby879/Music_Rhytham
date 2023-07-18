@@ -11,7 +11,7 @@ class SplashScreen extends StatefulWidget {
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen>  {
+class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
@@ -24,8 +24,7 @@ class _SplashScreenState extends State<SplashScreen>  {
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage(
-              MusicImages.instance.splashImage),
+            image: AssetImage(MusicImages.instance.splashImage),
             fit: BoxFit.cover,
           ),
         ),
@@ -33,16 +32,17 @@ class _SplashScreenState extends State<SplashScreen>  {
     );
   }
 
-
   Future<void> initializeApp(context) async {
     bool hasStoragePermission = false;
     hasStoragePermission = await CheckPermission.checkAndRequestPermissions();
     await Future.delayed(const Duration(seconds: 2));
     if (hasStoragePermission) {
-      await songfetch();
-      Navigator.of(context).pushReplacement(MaterialPageRoute(
-        builder: (context) => musicAppBottomNav(),
-      ));
+      await songfetch(context);
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (context) => musicAppBottomNav(),
+        ),
+      );
     }
   }
 }
